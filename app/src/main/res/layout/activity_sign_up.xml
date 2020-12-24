@@ -4,14 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
-
+    tools:context=".SignUpActivity">
 
     <TextView
-        android:id="@+id/tv_title_login"
+        android:id="@+id/tv_title_signup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/log_in_title_login"
+        android:text="@string/sign_up_title"
         android:textSize="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,73 +19,93 @@
         app:layout_constraintVertical_bias="0.110000014" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_username_login"
+        android:id="@+id/til_username_signup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="15sp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_title_login">
+        app:layout_constraintTop_toBottomOf="@+id/tv_title_signup">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tiet_username_login"
+            android:id="@+id/tiet_username_signup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/username_login" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_password_login"
+        android:id="@+id/til_password_signup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/til_username_login">
+        app:layout_constraintTop_toBottomOf="@+id/til_username_signup">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tiet_password_login"
+            android:id="@+id/tiet_password_signup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/password_login" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_email_signup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/til_password_signup">
 
-    <CheckBox
-        android:id="@+id/checkbox_remember_login"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tiet_email_signup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/email_adress_sign_up" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_fullname_signup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/til_email_signup">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tiet_fullname_signup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/full_name_signup" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/btn_signup_signup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="@string/remember_me_login"
+        android:text="@string/sign_up_btn_signup"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/til_password_login" />
+        app:layout_constraintTop_toBottomOf="@+id/til_fullname_signup" />
 
-    <Button
-        android:id="@+id/btn_login_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="@string/log_in_btn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkbox_remember_login" />
-
-    <Button
-        android:id="@+id/btn_signup_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="@string/sign_up_btn_login"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_login_login" />
 </androidx.constraintlayout.widget.ConstraintLayout>
