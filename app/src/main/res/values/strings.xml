@@ -14,4 +14,8 @@
     <string name="toast_password_signup">Password must be between 6 and 15 characters</string>
     <string name="toast_email_signup">Email must be between 10 and 25 characters</string>
     <string name="toast_fullname_signup">Full name must be between 5 and 25 characters</string>
+    <string name="toast_username_DB_signup">Username taken!</string>
+    <string name="toast_email_DB_signup">Email taken!</string>
+    <string name="toast_eroareNecunoscuta_DB_signup">Unknown error!</string>
+    <string name="toast_db_login">Invalid username or password</string>
 </resources>

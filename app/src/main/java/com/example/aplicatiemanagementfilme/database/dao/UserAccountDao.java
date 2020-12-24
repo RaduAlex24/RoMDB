@@ -16,11 +16,12 @@ public interface UserAccountDao {
     @Insert
     long insert(UserAccount userAccount);
 
-    // Get pentru tesatare username
+    // Get pentru testare username si email
+    @Query("select * from userAccounts where username LIKE (:username) OR email LIKE (:email)")
+    List<UserAccount> getUsersByUsernameOrEmail(String username, String email);
+
+    // Get pentru testare username
     @Query("select * from userAccounts where username LIKE (:username)")
     List<UserAccount> getUsersByUsername(String username);
 
-    // Get pentru tesatare email
-    @Query("select * from userAccounts where email LIKE (:email)")
-    List<UserAccount> getUsersByEmail(String email);
 }
