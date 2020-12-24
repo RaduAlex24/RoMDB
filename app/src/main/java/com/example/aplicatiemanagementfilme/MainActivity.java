@@ -8,9 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.Toast;
 
-import com.example.aplicatiemanagementfilme.util.UserAccount;
+import com.example.aplicatiemanagementfilme.database.model.UserAccount;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class MainActivity extends AppCompatActivity {

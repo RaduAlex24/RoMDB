@@ -1,14 +1,38 @@
-package com.example.aplicatiemanagementfilme.util;
+package com.example.aplicatiemanagementfilme.database.model;
 
+
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
 
+@Entity(tableName = "userAccounts")
 public class UserAccount implements Serializable {
+
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
+    long id;
+
+    @ColumnInfo(name = "username")
     private String username;
+    @ColumnInfo(name = "password")
     private String password;
+    @ColumnInfo(name = "email")
     private String email;
+    @ColumnInfo(name = "fullName")
     private String fullName;
 
+    public UserAccount(long id, String username, String password, String email, String fullName) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.fullName = fullName;
+    }
+
+    @Ignore
     public UserAccount(String username, String password, String email, String fullName) {
         this.username = username;
         this.password = password;
@@ -46,6 +70,14 @@ public class UserAccount implements Serializable {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     @Override

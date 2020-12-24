@@ -2,14 +2,15 @@ package com.example.aplicatiemanagementfilme;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.accounts.Account;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.aplicatiemanagementfilme.util.UserAccount;
+import com.example.aplicatiemanagementfilme.database.dao.UserAccountDao;
+import com.example.aplicatiemanagementfilme.database.model.UserAccount;
+import com.example.aplicatiemanagementfilme.database.service.UserAccountService;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class SignUpActivity extends AppCompatActivity {
@@ -22,6 +23,7 @@ public class SignUpActivity extends AppCompatActivity {
     private Button btn_signup;
 
     private Intent intent;
+    private UserAccountService userAccountService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,10 @@ public class SignUpActivity extends AppCompatActivity {
 
         // Preluare intent
         intent = getIntent();
+
+        // Initializare dao
+        userAccountService = new UserAccountService(getApplicationContext());
+
     }
 
 
@@ -58,6 +64,10 @@ public class SignUpActivity extends AppCompatActivity {
                 if (validate()) {
                     // validare db
                     UserAccount userAccount = createAccountFromWidgets();
+
+                    // Inserare in baza de date
+
+
                     intent.putExtra(USER_ACCOUNT_KEY, userAccount);
                     setResult(RESULT_OK, intent);
                     finish();
