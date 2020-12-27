@@ -5,11 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.bumptech.glide.Glide;
+import com.example.aplicatiemanagementfilme.MainActivity;
 import com.example.aplicatiemanagementfilme.R;
 
 import java.util.List;
@@ -38,6 +41,10 @@ public class MovieListViewAdapter extends ArrayAdapter<Movie> {
         View view = inflater.inflate(resource, parent, false);
         Movie movie = movieList.get(position);
         if (movie != null) {
+            // Imagine
+            ImageView ivPoster = view.findViewById(R.id.iv_poster_browserRow);
+            Glide.with(view).load(movie.getPosterUrl()).into(ivPoster);
+
             // Titlu
             TextView tvTitle = view.findViewById(R.id.tv_title_browserRow);
             tvTitle.setText(movie.getTitle());

@@ -16,6 +16,8 @@ import com.example.aplicatiemanagementfilme.util.Movie;
 import com.example.aplicatiemanagementfilme.util.MovieJsonParser;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -63,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void runResultOnUiThread(String result) {
                 movieList.addAll(MovieJsonParser.fromJson(result));
+                Collections.shuffle(movieList);
 
                 // Initializare sweep view
                 initComponents();
