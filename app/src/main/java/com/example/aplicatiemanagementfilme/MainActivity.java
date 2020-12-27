@@ -1,224 +1,40 @@
 package com.example.aplicatiemanagementfilme;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.viewpager.widget.ViewPager;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.Toast;
 
-import com.example.aplicatiemanagementfilme.asyncTask.Callback;
-import com.example.aplicatiemanagementfilme.database.model.UserAccount;
-import com.example.aplicatiemanagementfilme.database.service.UserAccountService;
-import com.google.android.material.textfield.TextInputEditText;
-
-import java.util.List;
+import com.example.aplicatiemanagementfilme.fragments.ViewPagerAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final int SIGN_UP_REQUEST_CODE = 200;
-    public static final String PASSWORD_SP = "PASSWORD_SP";
-    public static final String USERNAME_SP = "USERNAME_SP";
-    public static final String REMEMBER_CHECKED = "REMEMBER_CHECKED";
-    private TextInputEditText tiet_username;
-    private TextInputEditText tiet_password;
-    private CheckBox checkBoxRemember;
-    private Button btn_login;
-    private Button btn_signup;
-
-    private UserAccount userAccount = null;
-    private UserAccountService userAccountService;
-    private int codEroare = 1;
-
-    private SharedPreferences preferences;
-    public static final String SHARED_PREF_FILE_NAME = "ApesTogetherSharedPreferences";
+    private ViewPager viewPager;
+    private FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Initializare componente APELARE
+        // Initializare sweep view
         initComponents();
-
-        // Atasare functie buton pt start activity Signup APELARE
-        btn_signup.setOnClickListener(onClickOpenSignUpListener());
-
-        // Atasare functie buton log in
-        btn_login.setOnClickListener(onClickLogInListener());
-
-        // Preluare shared preferences
-        getLogInInfoFromSharedPreference();
-    }
-
-
-    // Activity result
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        // Primire userAccount nou
-        if (requestCode == SIGN_UP_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
-            userAccount = (UserAccount) data.getSerializableExtra(SignUpActivity.USER_ACCOUNT_KEY);
-            // Populare log in
-            Toast.makeText(getApplicationContext(), userAccount.toString(), Toast.LENGTH_LONG).show();
-            populateLogIn(userAccount);
-        }
+        initViewPagerAdapter();
     }
 
 
     // Functii
     // Initializare componente
     private void initComponents() {
-        tiet_username = findViewById(R.id.tiet_username_login);
-        tiet_password = findViewById(R.id.tiet_password_login);
-        checkBoxRemember = findViewById(R.id.checkbox_remember_login);
-        btn_login = findViewById(R.id.btn_login_login);
-        btn_signup = findViewById(R.id.btn_signup_login);
-
-        // Initializare user account service
-        userAccountService = new UserAccountService(getApplicationContext());
-
-        // Initializare shared preferences
-        preferences = getSharedPreferences(SHARED_PREF_FILE_NAME, MODE_PRIVATE);
+        viewPager = findViewById(R.id.viewPager_main);
+        fragmentManager = getSupportFragmentManager();
     }
 
-    // Functie buton pt start activity sign up
-    private View.OnClickListener onClickOpenSignUpListener() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
-                startActivityForResult(intent, SIGN_UP_REQUEST_CODE);
-            }
-        };
+    // Setare adapter
+    private void initViewPagerAdapter() {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(fragmentManager);
+        viewPager.setAdapter(adapter);
     }
 
-    // Populare campuri log in
-    private void populateLogIn(UserAccount userAccount) {
-        tiet_username.setText(userAccount.getUsername());
-        tiet_password.setText(userAccount.getPassword());
-    }
-
-
-    // Functie pt log in
-    private View.OnClickListener onClickLogInListener() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (validate()) {
-                    // validare db
-                    String username = tiet_username.getText().toString();
-                    String password = tiet_password.getText().toString();
-
-                    userAccountService.getUsersByUsername(username, gatUsersByUsernameCallback(password));
-                }
-            }
-        };
-    }
-
-    // Callback get users by username
-    private Callback<List<UserAccount>> gatUsersByUsernameCallback(String password) {
-        return new Callback<List<UserAccount>>() {
-            @Override
-            public void runResultOnUiThread(List<UserAccount> result) {
-                if (result.size() == 0) {
-                    codEroare = 2;
-                } else {
-                    for (UserAccount userAccount : result) {
-                        if (password.equals(userAccount.getPassword())) {
-                            // E bine
-                            codEroare = 0;
-                            break;
-                        }
-                    }
-                }
-
-                if (validateDB(codEroare)) {
-                    // Testare Remember me
-                    if (checkBoxRemember.isChecked()) {
-                        saveLogInInfoToSharedPreference();
-                    } else {
-                        deleteLogInInfoToSharedPreference();
-                    }
-
-                    // Deschidere noua activitate
-                    Toast.makeText(getApplicationContext(), "Logare reusita!", Toast.LENGTH_SHORT).show();
-                }
-            }
-        };
-    }
-
-    // Validare componente log in
-    private boolean validate() {
-        if (tiet_username.getText().toString().trim().length() <= 5
-                || tiet_username.getText().toString().trim().length() >= 16) {
-            Toast.makeText(getApplicationContext(),
-                    getString(R.string.toast_username_signup),
-                    Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-        if (tiet_password.getText().toString().trim().length() <= 5
-                || tiet_password.getText().toString().trim().length() >= 16) {
-            Toast.makeText(getApplicationContext(),
-                    getString(R.string.toast_password_signup),
-                    Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-        return true;
-    }
-
-
-    // Validare log in DB
-    private boolean validateDB(int codEroare) {
-        if (codEroare != 0) {
-            Toast.makeText(getApplicationContext(), getString(R.string.toast_db_login)
-                    , Toast.LENGTH_SHORT).show();
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-
-    // Shared preferences
-    // Salvare shared pref
-    private void saveLogInInfoToSharedPreference() {
-        String username = tiet_username.getText().toString();
-        String password = tiet_password.getText().toString();
-
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(USERNAME_SP, username);
-        editor.putString(PASSWORD_SP, password);
-        editor.putBoolean(REMEMBER_CHECKED, true);
-        editor.apply();
-    }
-
-    // Stergere informatii log in shared pref
-    private void deleteLogInInfoToSharedPreference() {
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(USERNAME_SP, "");
-        editor.putString(PASSWORD_SP, "");
-        editor.putBoolean(REMEMBER_CHECKED, false);
-        editor.apply();
-    }
-
-    // Incarcare shared pref
-    private void getLogInInfoFromSharedPreference() {
-        String username = preferences.getString(USERNAME_SP, "");
-        String password = preferences.getString(PASSWORD_SP, "");
-        boolean rememberChecked = preferences.getBoolean(REMEMBER_CHECKED, false);
-
-        tiet_username.setText(username);
-        tiet_password.setText(password);
-        if (rememberChecked) {
-            checkBoxRemember.setChecked(true);
-        }
-    }
 }
