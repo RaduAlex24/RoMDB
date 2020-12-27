@@ -1,0 +1,67 @@
+package com.example.aplicatiemanagementfilme.util;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.example.aplicatiemanagementfilme.R;
+
+import java.util.List;
+
+public class MovieListViewAdapter extends ArrayAdapter<Movie> {
+
+    private Context context;
+    private List<Movie> movieList;
+    private LayoutInflater inflater;
+    private int resource;
+    private DateConverter dateConverter = new DateConverter();
+
+    public MovieListViewAdapter(@NonNull Context context, int resource,
+                                @NonNull List<Movie> objects, LayoutInflater inflater) {
+        super(context, resource, objects);
+
+        this.context = context;
+        this.movieList = objects;
+        this.inflater = inflater;
+        this.resource = resource;
+    }
+
+    @NonNull
+    @Override
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        View view = inflater.inflate(resource, parent, false);
+        Movie movie = movieList.get(position);
+        if (movie != null) {
+            // Titlu
+            TextView tvTitle = view.findViewById(R.id.tv_title_browserRow);
+            tvTitle.setText(movie.getTitle());
+
+            // Imdb rating
+            TextView tvImdb = view.findViewById(R.id.tv_imdbRating_browserRow);
+            tvImdb.setText(String.valueOf(movie.getImdbRating()));
+
+            // Data
+            TextView tvDate = view.findViewById(R.id.tv_releaseDate_browserRow);
+            tvDate.setText(dateConverter.toString(movie.getReleaseDate()));
+
+            // Gen
+            TextView tvGenre = view.findViewById(R.id.tv_genres_browserRow);
+            tvGenre.setText(movie.getGenres().toString());
+
+            // Plot
+            TextView tvPlot = view.findViewById(R.id.tv_plot_browserRow);
+            tvPlot.setText("Plot: " + movie.getStoryline());
+
+            // Actori
+            TextView tvActors = view.findViewById(R.id.tv_actors_browserRow);
+            tvActors.setText("Staring:" + movie.getActors().toString());
+        }
+        return view;
+    }
+}

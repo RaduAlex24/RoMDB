@@ -4,11 +4,19 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.example.aplicatiemanagementfilme.R;
+import com.example.aplicatiemanagementfilme.util.Movie;
+import com.example.aplicatiemanagementfilme.util.MovieListViewAdapter;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,8 +31,7 @@ public class MovieBrowserFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private List<Movie> movieList;
 
     public MovieBrowserFragment() {
         // Required empty public constructor
@@ -39,11 +46,10 @@ public class MovieBrowserFragment extends Fragment {
      * @return A new instance of fragment MovieBrowserFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static MovieBrowserFragment newInstance(String param1, String param2) {
+    public static MovieBrowserFragment newInstance(List<Movie> movieList) {
         MovieBrowserFragment fragment = new MovieBrowserFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putSerializable(ARG_PARAM1, (Serializable) movieList);
         fragment.setArguments(args);
         return fragment;
     }
@@ -53,6 +59,24 @@ public class MovieBrowserFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_movie_browser, container, false);
+        View view = inflater.inflate(R.layout.fragment_movie_browser, container, false);
+        initComponents(view);
+        return view;
+    }
+
+
+    private void initComponents(View view) {
+        ListView lvMovies = view.findViewById(R.id.lv_movieBrowser);
+        //preiau lista de jucatori
+        if (getArguments() != null) {
+            movieList = (List<Movie>) getArguments().getSerializable(ARG_PARAM1);
+        }
+        //creare adapter pentru ListView
+        if (getContext() != null) {
+            //vezi seminar 3 pentru creare si adaugare adapter ListView
+            MovieListViewAdapter adapter = new MovieListViewAdapter(getContext().getApplicationContext(),
+                    R.layout.lv_row_movie_browser, movieList, getLayoutInflater());
+            lvMovies.setAdapter(adapter);
+        }
     }
 }
