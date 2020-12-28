@@ -47,7 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="6.69"
-
+        android:gravity="center"
         android:textSize="17dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.25"
@@ -75,7 +75,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="1999-3-03"
-
+        android:gravity="center"
         android:textSize="16dp"
         app:layout_constraintEnd_toStartOf="@id/iv_poster_movie_details_act"
         app:layout_constraintHorizontal_bias="0.25"
@@ -100,11 +100,11 @@
 
     <TextView
         android:id="@+id/tv_genres_movie_details_act"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Drama, comedy, thriller"
-
+        android:gravity="center"
         android:textSize="14dp"
         app:layout_constraintEnd_toStartOf="@id/iv_poster_movie_details_act"
         app:layout_constraintHorizontal_bias="0.25"
@@ -129,24 +129,22 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-
     <TextView
         android:id="@+id/tv_plot_movie_details_act"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:text="Plot: asdasd asdfsdfsd fsdfsdfsdfsdfsdfsdf sd fsdfsdff fsdsd muie:"
         android:textSize="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iv_poster_movie_details_act"
         app:layout_constraintVertical_bias="0.244" />
-
 
 
     <TextView
@@ -155,7 +153,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:text="Actors: asdasd fsdfsdfffsdsd muie:"
@@ -163,6 +160,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_plot_movie_details_act" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_plot_movie_details_act" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

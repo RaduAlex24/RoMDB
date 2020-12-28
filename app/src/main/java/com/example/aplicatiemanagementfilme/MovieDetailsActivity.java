@@ -72,7 +72,16 @@ public class MovieDetailsActivity extends AppCompatActivity {
         // Data lansare
         tvReleaseDate.setText(dateConverter.toString(movie.getReleaseDate()));
         // Gen-uri
-        tvGenres.setText(movie.getGenres().toString());
+        String genresString = "";
+        for (int i = 0; i < movie.getGenres().size(); i++) {
+            if(i != movie.getGenres().size() - 1) {
+                genresString += movie.getGenres().get(i) + ", ";
+            }
+            else{
+                genresString += movie.getGenres().get(i);
+            }
+        }
+        tvGenres.setText(genresString);
         // Plot
         tvPlot.setText(movie.getStoryline());
         // Actori
