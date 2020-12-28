@@ -1,5 +1,7 @@
 package com.example.aplicatiemanagementfilme.util;
 
+import androidx.room.TypeConverter;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -13,6 +15,7 @@ public class DateConverter {
         formatter = new SimpleDateFormat(FORMAT_DATE, Locale.US);
     }
 
+    @TypeConverter
     public Date toDate(String value) {
         try {
             return formatter.parse(value);
@@ -21,6 +24,7 @@ public class DateConverter {
         }
     }
 
+    @TypeConverter
     public String toString(Date value) {
         if (value == null) {
             return null;

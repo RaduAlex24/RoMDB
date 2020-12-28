@@ -1,5 +1,7 @@
 package com.example.aplicatiemanagementfilme.util;
 
+import com.example.aplicatiemanagementfilme.database.model.Movie;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

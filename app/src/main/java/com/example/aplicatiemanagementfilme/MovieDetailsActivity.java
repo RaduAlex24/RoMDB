@@ -4,14 +4,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.aplicatiemanagementfilme.fragments.MovieBrowserFragment;
 import com.example.aplicatiemanagementfilme.util.DateConverter;
-import com.example.aplicatiemanagementfilme.util.Movie;
+import com.example.aplicatiemanagementfilme.database.model.Movie;
+import com.example.aplicatiemanagementfilme.util.StringListConverter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MovieDetailsActivity extends AppCompatActivity {
 
@@ -58,6 +61,15 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
         // Film primit
         movieFromIntent = (Movie) intent.getSerializableExtra(MovieBrowserFragment.MOVIE_DETAILS_KEY);
+
+        // Test
+        List<String> stringList = new ArrayList<>();
+        stringList.add("Salut");
+        stringList.add("Buna");
+        stringList.add("Kys");
+
+        String rez1 = StringListConverter.toString(stringList);
+        List<String> rez2 = StringListConverter.toList(rez1);
     }
 
 
@@ -83,8 +95,17 @@ public class MovieDetailsActivity extends AppCompatActivity {
         }
         tvGenres.setText(genresString);
         // Plot
-        tvPlot.setText(movie.getStoryline());
+        tvPlot.setText("  Plot: "+movie.getStoryline());
         // Actori
-        tvActors.setText(movie.getActors().toString());
+        String actorsString = "";
+        for (int i = 0; i < movie.getActors().size(); i++) {
+            if(i != movie.getActors().size() - 1) {
+                actorsString += movie.getActors().get(i) + ", ";
+            }
+            else{
+                actorsString += movie.getActors().get(i);
+            }
+        }
+        tvActors.setText("  Starring: " + actorsString);
     }
 }

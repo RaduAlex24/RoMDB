@@ -5,18 +5,15 @@ import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.aplicatiemanagementfilme.asyncTask.AsyncTaskRunner;
 import com.example.aplicatiemanagementfilme.asyncTask.Callback;
 import com.example.aplicatiemanagementfilme.fragments.ViewPagerAdapter;
 import com.example.aplicatiemanagementfilme.network.HttpManager;
-import com.example.aplicatiemanagementfilme.util.Movie;
+import com.example.aplicatiemanagementfilme.database.model.Movie;
 import com.example.aplicatiemanagementfilme.util.MovieJsonParser;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;

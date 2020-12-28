@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
 import com.example.aplicatiemanagementfilme.R;
+import com.example.aplicatiemanagementfilme.database.model.Movie;
 
 import java.util.List;
 
