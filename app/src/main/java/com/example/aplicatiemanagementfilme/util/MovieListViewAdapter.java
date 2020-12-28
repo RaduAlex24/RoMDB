@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
-import com.example.aplicatiemanagementfilme.MainActivity;
 import com.example.aplicatiemanagementfilme.R;
 
 import java.util.List;
@@ -59,15 +58,24 @@ public class MovieListViewAdapter extends ArrayAdapter<Movie> {
 
             // Gen
             TextView tvGenre = view.findViewById(R.id.tv_genres_browserRow);
-            tvGenre.setText(movie.getGenres().toString());
+            String genresString = "";
+            for (int i = 0; i < movie.getGenres().size(); i++) {
+                if(i != movie.getGenres().size() - 1) {
+                    genresString += movie.getGenres().get(i) + ", ";
+                }
+                else{
+                    genresString += movie.getGenres().get(i);
+                }
+            }
+            tvGenre.setText(genresString);
 
-            // Plot
-            TextView tvPlot = view.findViewById(R.id.tv_plot_browserRow);
-            tvPlot.setText("Plot: " + movie.getStoryline());
-
-            // Actori
-            TextView tvActors = view.findViewById(R.id.tv_actors_browserRow);
-            tvActors.setText("Staring:" + movie.getActors().toString());
+//            // Plot
+//            TextView tvPlot = view.findViewById(R.id.tv_plot_browserRow);
+//            tvPlot.setText("Plot: " + movie.getStoryline());
+//
+//            // Actori
+//            TextView tvActors = view.findViewById(R.id.tv_actors_browserRow);
+//            tvActors.setText("Staring:" + movie.getActors().toString());
         }
         return view;
     }

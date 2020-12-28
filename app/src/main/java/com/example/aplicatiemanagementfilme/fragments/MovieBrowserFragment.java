@@ -1,5 +1,6 @@
 package com.example.aplicatiemanagementfilme.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,9 +9,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.example.aplicatiemanagementfilme.MovieDetailsActivity;
 import com.example.aplicatiemanagementfilme.R;
 import com.example.aplicatiemanagementfilme.util.Movie;
 import com.example.aplicatiemanagementfilme.util.MovieListViewAdapter;
@@ -29,6 +32,7 @@ public class MovieBrowserFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    public static final String MOVIE_DETAILS_KEY = "MOVIE_DETAILS_KEY";
 
     // TODO: Rename and change types of parameters
     private List<Movie> movieList;
@@ -67,16 +71,26 @@ public class MovieBrowserFragment extends Fragment {
 
     private void initComponents(View view) {
         ListView lvMovies = view.findViewById(R.id.lv_movieBrowser);
-        //preiau lista de jucatori
+
         if (getArguments() != null) {
             movieList = (List<Movie>) getArguments().getSerializable(ARG_PARAM1);
         }
-        //creare adapter pentru ListView
+
         if (getContext() != null) {
-            //vezi seminar 3 pentru creare si adaugare adapter ListView
+            // Creare adapter pentru ListView
             MovieListViewAdapter adapter = new MovieListViewAdapter(getContext().getApplicationContext(),
                     R.layout.lv_row_movie_browser, movieList, getLayoutInflater());
             lvMovies.setAdapter(adapter);
+
+            // Adaugare eveniment click pe element din lista
+            lvMovies.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent intent = new Intent(view.getContext(), MovieDetailsActivity.class);
+                    intent.putExtra(MOVIE_DETAILS_KEY, movieList.get(position));
+                    startActivity(intent);
+                }
+            });
         }
     }
 }

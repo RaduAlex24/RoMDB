@@ -26,7 +26,8 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private FragmentManager fragmentManager;
 
-    private final String URL_MOVIES = "https://jsonkeeper.com/b/B2YA";
+    //private final String URL_MOVIES = "https://jsonkeeper.com/b/B2YA";
+    private final String URL_MOVIES = "https://jsonkeeper.com/b/A4PU";
     private List<Movie> movieList = new ArrayList<>();
     private AsyncTaskRunner asyncTaskRunner = new AsyncTaskRunner();
 
@@ -67,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 movieList.addAll(MovieJsonParser.fromJson(result));
                 Collections.shuffle(movieList);
 
-                // Initializare sweep view
+                // Initializare swipe view
                 initComponents();
                 initViewPagerAdapter();
             }
