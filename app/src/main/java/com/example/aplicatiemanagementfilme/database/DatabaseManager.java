@@ -8,6 +8,7 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
 import com.example.aplicatiemanagementfilme.database.dao.UserAccountDao;
+import com.example.aplicatiemanagementfilme.database.dao.WatchListDao;
 import com.example.aplicatiemanagementfilme.database.model.Movie;
 import com.example.aplicatiemanagementfilme.database.model.UserAccount;
 import com.example.aplicatiemanagementfilme.database.model.WatchList;
@@ -15,7 +16,7 @@ import com.example.aplicatiemanagementfilme.util.DateConverter;
 import com.example.aplicatiemanagementfilme.util.StringListConverter;
 
 @Database(entities = {UserAccount.class, WatchList.class, Movie.class},
-        exportSchema = false, version = 3)
+        exportSchema = false, version = 4)
 @TypeConverters({DateConverter.class, StringListConverter.class})
 public abstract class DatabaseManager extends RoomDatabase {
 
@@ -39,5 +40,9 @@ public abstract class DatabaseManager extends RoomDatabase {
     }
 
     // DAO
+    // UserAccount
     public abstract UserAccountDao getUserAccountDao();
+
+    // Watch List
+    public abstract WatchListDao getWatchListDao();
 }

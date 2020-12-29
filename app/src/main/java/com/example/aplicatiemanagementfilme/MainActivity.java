@@ -4,10 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.aplicatiemanagementfilme.asyncTask.AsyncTaskRunner;
 import com.example.aplicatiemanagementfilme.asyncTask.Callback;
+import com.example.aplicatiemanagementfilme.database.model.UserAccount;
 import com.example.aplicatiemanagementfilme.fragments.ViewPagerAdapter;
 import com.example.aplicatiemanagementfilme.network.HttpManager;
 import com.example.aplicatiemanagementfilme.database.model.Movie;
@@ -28,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
     private List<Movie> movieList = new ArrayList<>();
     private AsyncTaskRunner asyncTaskRunner = new AsyncTaskRunner();
 
+    private Intent intent;
+    public static UserAccount currentUserAccount;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,8 +50,13 @@ public class MainActivity extends AppCompatActivity {
     // Functii
     // Initializare componente
     private void initComponents() {
+        // Components
         viewPager = findViewById(R.id.viewPager_main);
         fragmentManager = getSupportFragmentManager();
+
+        // Intent si user curent
+        intent = getIntent();
+        currentUserAccount = (UserAccount) intent.getSerializableExtra(LogInActivity.USER_INFORMATION_KEY);
     }
 
     // Setare adapter

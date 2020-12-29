@@ -6,11 +6,13 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.example.aplicatiemanagementfilme.database.model.Movie;
+import com.example.aplicatiemanagementfilme.database.model.UserAccount;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
+
     private static final int NUM_INTEMS = 3;
     List<Movie> movieList = new ArrayList<>();
 

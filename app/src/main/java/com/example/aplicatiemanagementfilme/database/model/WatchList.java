@@ -18,17 +18,21 @@ public class WatchList {
     private String wlName;
     @ColumnInfo(name = "userAccountId")
     private long userAccountId;
+    @ColumnInfo(name = "movieCount")
+    private int movieCount;
 
     public WatchList(long id, String wlName, long userAccountId) {
         this.id = id;
         this.wlName = wlName;
         this.userAccountId = userAccountId;
+        this.movieCount = 0;
     }
 
     @Ignore
     public WatchList(String wlName, long userAccountId) {
         this.wlName = wlName;
         this.userAccountId = userAccountId;
+        this.movieCount = 0;
     }
 
     public String getWlName() {
@@ -53,5 +57,23 @@ public class WatchList {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public int getMovieCount() {
+        return movieCount;
+    }
+
+    public void setMovieCount(int movieCount) {
+        this.movieCount = movieCount;
+    }
+
+    @Override
+    public String toString() {
+        return "WatchList{" +
+                "id=" + id +
+                ", wlName='" + wlName + '\'' +
+                ", userAccountId=" + userAccountId +
+                ", movieCount=" + movieCount +
+                '}';
     }
 }

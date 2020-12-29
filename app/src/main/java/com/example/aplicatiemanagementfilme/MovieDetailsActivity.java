@@ -2,16 +2,26 @@ package com.example.aplicatiemanagementfilme;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.aplicatiemanagementfilme.fragments.MovieBrowserFragment;
+import com.example.aplicatiemanagementfilme.fragments.WatchListFragment;
 import com.example.aplicatiemanagementfilme.util.DateConverter;
 import com.example.aplicatiemanagementfilme.database.model.Movie;
 import com.example.aplicatiemanagementfilme.util.StringListConverter;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +35,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
     private TextView tvGenres;
     private TextView tvPlot;
     private TextView tvActors;
+    private FloatingActionButton fab_addMovieToWL;
 
     private DateConverter dateConverter = new DateConverter();
 
@@ -41,6 +52,9 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
         // Incarcare film in componenetele paginii
         loadPageWithMovie(movieFromIntent);
+
+        // Adaugare on click pe add movie to wl
+        fab_addMovieToWL.setOnClickListener(onClickAddMovieToWLListener());
     }
 
 
@@ -55,21 +69,13 @@ public class MovieDetailsActivity extends AppCompatActivity {
         tvGenres = findViewById(R.id.tv_genres_movie_details_act);
         tvPlot = findViewById(R.id.tv_plot_movie_details_act);
         tvActors = findViewById(R.id.tv_actors_movie_details_act);
+        fab_addMovieToWL = findViewById(R.id.fab_add_movieToWL_movie_details_act);
 
         // Intent
         intent = getIntent();
 
         // Film primit
         movieFromIntent = (Movie) intent.getSerializableExtra(MovieBrowserFragment.MOVIE_DETAILS_KEY);
-
-        // Test
-        List<String> stringList = new ArrayList<>();
-        stringList.add("Salut");
-        stringList.add("Buna");
-        stringList.add("Kys");
-
-        String rez1 = StringListConverter.toString(stringList);
-        List<String> rez2 = StringListConverter.toList(rez1);
     }
 
 
@@ -107,5 +113,41 @@ public class MovieDetailsActivity extends AppCompatActivity {
             }
         }
         tvActors.setText("  Starring: " + actorsString);
+    }
+
+
+
+    // Functie on click pe add movie to wl
+    private View.OnClickListener onClickAddMovieToWLListener() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+//                builder.setTitle("Title");
+//
+//                // Set up the input
+//                final EditText input = new EditText(getApplicationContext());
+//                // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+//                input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+//                builder.setView(input);
+//
+//                // Set up the buttons
+//                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        String m_Text = input.getText().toString();
+//                    }
+//                });
+//                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.cancel();
+//                    }
+//                });
+//
+//                builder.show();
+                Toast.makeText(getApplicationContext(),"ceva",Toast.LENGTH_SHORT).show();
+            }
+        };
     }
 }
