@@ -33,6 +33,7 @@ import java.util.List;
 public class WatchListFragment extends Fragment {
 
     public static final String WATCH_LIST_INFORMATION_KEY = "WATCH_LIST_INFORMATION_KEY";
+    public static final String WATCH_LIST_POSITION_KEY = "WATCH_LIST_POSITION_KEY";
     private static ListView lvWatchList;
     private FloatingActionButton fabAddWatchList;
     private WatchListService watchListService;
@@ -90,6 +91,7 @@ public class WatchListFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getContext(), WatchListDetailsActivity.class);
                 intent.putExtra(WATCH_LIST_INFORMATION_KEY, (Serializable) watchListArray.get(position));
+                intent.putExtra(WATCH_LIST_POSITION_KEY, position);
                 startActivity(intent);
             }
         });

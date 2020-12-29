@@ -31,6 +31,8 @@ public class MovieBrowserFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     public static final String MOVIE_DETAILS_KEY = "MOVIE_DETAILS_KEY";
+    public static final String ADD_MOVIE_VISIBILITY_KEY = "ADD_MOVIE_VISIBILITY_KEY";
+    public static final String MOVIE_POSITION_KEY = "MOVIE_POSITION_KEY";
 
     // TODO: Rename and change types of parameters
     private List<Movie> movieList;
@@ -86,6 +88,8 @@ public class MovieBrowserFragment extends Fragment {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Intent intent = new Intent(view.getContext(), MovieDetailsActivity.class);
                     intent.putExtra(MOVIE_DETAILS_KEY, movieList.get(position));
+                    intent.putExtra(MOVIE_POSITION_KEY, position);
+                    intent.putExtra(ADD_MOVIE_VISIBILITY_KEY,true);
                     startActivity(intent);
                 }
             });

@@ -23,7 +23,11 @@ public interface WatchListDao {
     @Query("SELECT * from watchLists WHERE userAccountId = (:userAccountId)")
     List<WatchList> getWatchListsByUserAccountId(long userAccountId);
 
-    // Update pentru incrementarea numarul de filme dintr un watch lsit
+    // Update pentru incrementarea numarului de filme dintr un watch list
     @Query("UPDATE watchLists SET movieCount = movieCount + 1 WHERE id=(:watchListId)")
-    int update(long watchListId);
+    int updateMovieCountPlus(long watchListId);
+
+    // Update pentru decrementarea numarului de filme dintr un watch list
+    @Query("UPDATE watchLists SET movieCount = movieCount - 1 WHERE id=(:watchListId)")
+    int updateMovieCountMinus(long watchListId);
 }

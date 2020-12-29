@@ -37,11 +37,14 @@ public class MovieDetailsActivity extends AppCompatActivity {
     private TextView tvPlot;
     private TextView tvActors;
     private FloatingActionButton fab_addMovieToWL;
+    private FloatingActionButton fab_deleteMovieFromWL;
 
     private DateConverter dateConverter = new DateConverter();
 
     private Intent intent;
     private Movie movieFromIntent;
+    private boolean buttonVisibility;
+    private int moviePositionInList;
 
     private MovieService movieService;
     private WatchListService watchListService;
@@ -59,6 +62,9 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
         // Adaugare on click pe add movie to wl
         fab_addMovieToWL.setOnClickListener(onClickAddMovieToWLListener());
+
+        // Adaugare on click pe stergere movie from wl
+        fab_deleteMovieFromWL.setOnClickListener(onClickDeleteMovieListener());
     }
 
 
@@ -74,9 +80,22 @@ public class MovieDetailsActivity extends AppCompatActivity {
         tvPlot = findViewById(R.id.tv_plot_movie_details_act);
         tvActors = findViewById(R.id.tv_actors_movie_details_act);
         fab_addMovieToWL = findViewById(R.id.fab_add_movieToWL_movie_details_act);
+        fab_deleteMovieFromWL = findViewById(R.id.fab_delete_movieFromWL_movie_details_act);
 
         // Intent
         intent = getIntent();
+
+        // Vizibilitate buton add
+        buttonVisibility = (boolean) intent
+                .getSerializableExtra(MovieBrowserFragment.ADD_MOVIE_VISIBILITY_KEY);
+        if (buttonVisibility) {
+            fab_deleteMovieFromWL.setVisibility(View.GONE);
+        } else {
+            fab_addMovieToWL.setVisibility(View.GONE);
+        }
+
+        // Pozitia elementului in lista
+        moviePositionInList = (int) intent.getSerializableExtra(MovieBrowserFragment.MOVIE_POSITION_KEY);
 
         // Film primit
         movieFromIntent = (Movie) intent.getSerializableExtra(MovieBrowserFragment.MOVIE_DETAILS_KEY);
@@ -215,5 +234,23 @@ public class MovieDetailsActivity extends AppCompatActivity {
         }
 
         return titleList;
+    }
+
+
+    // Functie on click pentru stergere film din watch list
+    private View.OnClickListener onClickDeleteMovieListener() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                movieService.delete(movieFromIntent, new Callback<Integer>() {
+                    @Override
+                    public void runResultOnUiThread(Integer result) {
+                        intent.putExtra(MovieBrowserFragment.MOVIE_POSITION_KEY, moviePositionInList);
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    }
+                });
+            }
+        };
     }
 }
