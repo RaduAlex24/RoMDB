@@ -6,9 +6,11 @@ import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity(tableName = "watchLists", foreignKeys = @ForeignKey(entity = UserAccount.class,
         parentColumns = "id", childColumns = "userAccountId"))
-public class WatchList {
+public class WatchList implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")

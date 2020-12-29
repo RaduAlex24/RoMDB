@@ -7,6 +7,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
+import com.example.aplicatiemanagementfilme.database.dao.MovieDao;
 import com.example.aplicatiemanagementfilme.database.dao.UserAccountDao;
 import com.example.aplicatiemanagementfilme.database.dao.WatchListDao;
 import com.example.aplicatiemanagementfilme.database.model.Movie;
@@ -45,4 +46,7 @@ public abstract class DatabaseManager extends RoomDatabase {
 
     // Watch List
     public abstract WatchListDao getWatchListDao();
+
+    // Movie
+    public abstract MovieDao getMovieDao();
 }

@@ -6,21 +6,22 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.InputType;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.aplicatiemanagementfilme.asyncTask.Callback;
+import com.example.aplicatiemanagementfilme.database.model.WatchList;
+import com.example.aplicatiemanagementfilme.database.service.MovieService;
+import com.example.aplicatiemanagementfilme.database.service.WatchListService;
 import com.example.aplicatiemanagementfilme.fragments.MovieBrowserFragment;
 import com.example.aplicatiemanagementfilme.fragments.WatchListFragment;
 import com.example.aplicatiemanagementfilme.util.DateConverter;
 import com.example.aplicatiemanagementfilme.database.model.Movie;
-import com.example.aplicatiemanagementfilme.util.StringListConverter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -41,6 +42,9 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
     private Intent intent;
     private Movie movieFromIntent;
+
+    private MovieService movieService;
+    private WatchListService watchListService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +80,12 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
         // Film primit
         movieFromIntent = (Movie) intent.getSerializableExtra(MovieBrowserFragment.MOVIE_DETAILS_KEY);
+
+        // Movie service
+        movieService = new MovieService(getApplicationContext());
+
+        // Watch list service
+        watchListService = new WatchListService(getApplicationContext());
     }
 
 
@@ -92,23 +102,21 @@ public class MovieDetailsActivity extends AppCompatActivity {
         // Gen-uri
         String genresString = "";
         for (int i = 0; i < movie.getGenres().size(); i++) {
-            if(i != movie.getGenres().size() - 1) {
+            if (i != movie.getGenres().size() - 1) {
                 genresString += movie.getGenres().get(i) + ", ";
-            }
-            else{
+            } else {
                 genresString += movie.getGenres().get(i);
             }
         }
         tvGenres.setText(genresString);
         // Plot
-        tvPlot.setText("  Plot: "+movie.getStoryline());
+        tvPlot.setText("  Plot: " + movie.getStoryline());
         // Actori
         String actorsString = "";
         for (int i = 0; i < movie.getActors().size(); i++) {
-            if(i != movie.getActors().size() - 1) {
+            if (i != movie.getActors().size() - 1) {
                 actorsString += movie.getActors().get(i) + ", ";
-            }
-            else{
+            } else {
                 actorsString += movie.getActors().get(i);
             }
         }
@@ -116,38 +124,96 @@ public class MovieDetailsActivity extends AppCompatActivity {
     }
 
 
-
     // Functie on click pe add movie to wl
     private View.OnClickListener onClickAddMovieToWLListener() {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-//                builder.setTitle("Title");
-//
-//                // Set up the input
-//                final EditText input = new EditText(getApplicationContext());
-//                // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-//                input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-//                builder.setView(input);
-//
-//                // Set up the buttons
-//                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        String m_Text = input.getText().toString();
-//                    }
-//                });
-//                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.cancel();
-//                    }
-//                });
-//
-//                builder.show();
-                Toast.makeText(getApplicationContext(),"ceva",Toast.LENGTH_SHORT).show();
+                alertDialogSelectWL(v);
             }
         };
+    }
+
+    // Alert dialog pt select watchlist
+    private void alertDialogSelectWL(View v) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+        builder.setTitle("Add to watch list:");
+
+        final Spinner spinner = new Spinner(v.getContext());
+        List<String> titlesWLfromParser = titleWatchListParser(WatchListFragment.watchListArray);
+        ArrayAdapter adapter = new ArrayAdapter(v.getContext(),
+                android.R.layout.simple_dropdown_item_1line, titlesWLfromParser);
+        spinner.setAdapter(adapter);
+        builder.setView(spinner);
+
+        builder.setPositiveButton("OK", onClickAddMovieToWLandDb(spinner));
+
+        builder.setNegativeButton("Cancel", onClickCancelAddMovieToWLandDb());
+
+        builder.show();
+    }
+
+
+    // functie click cancel adaugare film in DB
+    private DialogInterface.OnClickListener onClickCancelAddMovieToWLandDb() {
+        return new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        };
+    }
+
+    // functie click adaugare film in DB
+    private DialogInterface.OnClickListener onClickAddMovieToWLandDb(Spinner spinner) {
+        return new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                int position = spinner.getSelectedItemPosition();
+                WatchList selectedWatchList = WatchListFragment.watchListArray.get(position);
+                movieFromIntent.setWatchListId(selectedWatchList.getId());
+                movieService.insert(movieFromIntent, callbackAddMovieToWLandDb(selectedWatchList));
+
+            }
+        };
+    }
+
+    // Callback adaugare film in wl si db
+    private Callback<Movie> callbackAddMovieToWLandDb(WatchList selectedWatchList) {
+        return new Callback<Movie>() {
+            @Override
+            public void runResultOnUiThread(Movie result) {
+                Toast.makeText(getApplicationContext(),
+                        getString(R.string.toast_addMovieInWL_param,
+                                selectedWatchList.getWlName()), Toast.LENGTH_LONG).show();
+
+                watchListService.getWatchListsByUserAccountId(MainActivity.currentUserAccount.getId(), callbackNotifyAdapter());
+            }
+        };
+    }
+
+    // Callback notify adapter
+    private Callback<List<WatchList>> callbackNotifyAdapter() {
+        return new Callback<List<WatchList>>() {
+            @Override
+            public void runResultOnUiThread(List<WatchList> result) {
+                WatchListFragment.watchListArray.clear();
+                WatchListFragment.watchListArray.addAll(result);
+                WatchListFragment.notifyInternalAdapter();
+            }
+        };
+    }
+
+
+    // Parsare Watch list array in lista de stringuri
+    private List<String> titleWatchListParser(List<WatchList> watchListArray) {
+        List<String> titleList = new ArrayList<>();
+
+        for (int i = 0; i < watchListArray.size(); i++) {
+            titleList.add(watchListArray.get(i).getWlName());
+        }
+
+        return titleList;
     }
 }

@@ -11,6 +11,7 @@ import com.example.aplicatiemanagementfilme.asyncTask.AsyncTaskRunner;
 import com.example.aplicatiemanagementfilme.asyncTask.Callback;
 import com.example.aplicatiemanagementfilme.database.model.UserAccount;
 import com.example.aplicatiemanagementfilme.fragments.ViewPagerAdapter;
+import com.example.aplicatiemanagementfilme.fragments.WatchListFragment;
 import com.example.aplicatiemanagementfilme.network.HttpManager;
 import com.example.aplicatiemanagementfilme.database.model.Movie;
 import com.example.aplicatiemanagementfilme.util.MovieJsonParser;
