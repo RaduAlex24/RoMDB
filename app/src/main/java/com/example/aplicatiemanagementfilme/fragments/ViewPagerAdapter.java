@@ -13,7 +13,7 @@ import java.util.List;
 
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
-    private static final int NUM_INTEMS = 4;
+    private static final int NUM_INTEMS = 3;
     List<Movie> movieList = new ArrayList<>();
 
     public ViewPagerAdapter(@NonNull FragmentManager fm, List<Movie> movieList) {

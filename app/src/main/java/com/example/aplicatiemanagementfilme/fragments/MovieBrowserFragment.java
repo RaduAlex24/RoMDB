@@ -184,35 +184,42 @@ public class MovieBrowserFragment extends Fragment {
                             getString(R.string.toast_movieNotFound_movieBrowser),
                             Toast.LENGTH_SHORT).show();
                 } else {
-
                     // AICI *****************************************************************
-                    String urlOmdb = "https://www.omdbapi.com/?i=REPLACE&plot=full&apikey=e142d467";
-                    movieListFromOmdb.clear();
-                    adapterToOmdbAdapter();
-
-                    for (int i = 0; i < omdbMovieIdList.size(); i++) {
-                        urlOmdb = urlOmdb.replace("REPLACE", omdbMovieIdList.get(i));
-
-                        Callable<String> callable = new HttpManager(urlOmdb);
-                        asyncTaskRunner.executeAsync(callable, new Callback<String>() {
-                            @Override
-                            public void runResultOnUiThread(String result) {
-
-                                Movie movie = OmdbMoviesIdParser.getMovieFromOmdbById(result);
-                                movieListFromOmdb.add(movie);
-                                //Toast.makeText(getContext(), movieListFromOmdb.toString(), Toast.LENGTH_SHORT).show();
-                                notifyInternalAdapter();
-
-                            }
-                        });
-
-                        urlOmdb = urlOmdb.replace(omdbMovieIdList.get(i), "REPLACE");
-                    }
-
-
+                    getMoviesFromHttpByImdbId(omdbMovieIdList);
                 }
             }
         });
+    }
+
+    // Preluare lista filme prin omdb api dupa imdb id-urile lor
+    private void getMoviesFromHttpByImdbId(List<String> omdbMovieIdList) {
+        String urlOmdb = "https://www.omdbapi.com/?i=REPLACE&plot=full&apikey=e142d467";
+        movieListFromOmdb.clear();
+        adapterToOmdbAdapter();
+
+        for (int i = 0; i < omdbMovieIdList.size(); i++) {
+            urlOmdb = urlOmdb.replace("REPLACE", omdbMovieIdList.get(i));
+
+            Callable<String> callable = new HttpManager(urlOmdb);
+            asyncTaskRunner.executeAsync(callable, callbackAdaugareFilmeOmdbInLista());
+
+            urlOmdb = urlOmdb.replace(omdbMovieIdList.get(i), "REPLACE");
+        }
+    }
+
+    // callback adaugare filme omdb in lista
+    private Callback<String> callbackAdaugareFilmeOmdbInLista() {
+        return new Callback<String>() {
+            @Override
+            public void runResultOnUiThread(String result) {
+
+                Movie movie = OmdbMoviesIdParser.getMovieFromOmdbById(result);
+                movieListFromOmdb.add(movie);
+                //Toast.makeText(getContext(), movieListFromOmdb.toString(), Toast.LENGTH_SHORT).show();
+                notifyInternalAdapter();
+
+            }
+        };
     }
 
 

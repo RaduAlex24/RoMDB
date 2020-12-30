@@ -3,6 +3,7 @@ package com.example.aplicatiemanagementfilme.database.dao;
 import android.widget.ListView;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
@@ -30,4 +31,8 @@ public interface WatchListDao {
     // Update pentru decrementarea numarului de filme dintr un watch list
     @Query("UPDATE watchLists SET movieCount = movieCount - 1 WHERE id=(:watchListId)")
     int updateMovieCountMinus(long watchListId);
+
+    // Stergere watch list
+    @Delete
+    int delete(WatchList watchList);
 }

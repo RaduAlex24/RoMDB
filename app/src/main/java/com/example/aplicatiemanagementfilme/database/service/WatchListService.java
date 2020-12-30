@@ -5,6 +5,7 @@ import android.content.Context;
 import com.example.aplicatiemanagementfilme.asyncTask.AsyncTaskRunner;
 import com.example.aplicatiemanagementfilme.asyncTask.Callback;
 import com.example.aplicatiemanagementfilme.database.DatabaseManager;
+import com.example.aplicatiemanagementfilme.database.dao.MovieDao;
 import com.example.aplicatiemanagementfilme.database.dao.WatchListDao;
 import com.example.aplicatiemanagementfilme.database.model.UserAccount;
 import com.example.aplicatiemanagementfilme.database.model.WatchList;
@@ -14,10 +15,12 @@ import java.util.concurrent.Callable;
 
 public class WatchListService {
     private WatchListDao watchListDao;
+    private MovieDao movieDao;
     private AsyncTaskRunner asyncTaskRunner;
 
     public WatchListService(Context context) {
         watchListDao = DatabaseManager.getInstance(context).getWatchListDao();
+        movieDao = DatabaseManager.getInstance(context).getMovieDao();
         asyncTaskRunner = new AsyncTaskRunner();
     }
 
@@ -47,11 +50,28 @@ public class WatchListService {
     }
 
     // Get watchlists by user id
-    public void getWatchListsByUserAccountId(long userAccountId, Callback<List<WatchList>> callback){
+    public void getWatchListsByUserAccountId(long userAccountId, Callback<List<WatchList>> callback) {
         Callable<List<WatchList>> callable = new Callable<List<WatchList>>() {
             @Override
             public List<WatchList> call() {
                 return watchListDao.getWatchListsByUserAccountId(userAccountId);
+            }
+        };
+
+        asyncTaskRunner.executeAsync(callable, callback);
+    }
+
+    // Delete watch list
+    public void delete(WatchList watchList, Callback<Integer> callback) {
+        Callable<Integer> callable = new Callable<Integer>() {
+            @Override
+            public Integer call() {
+                if (watchList == null) {
+                    return -1;
+                }
+
+                movieDao.deleteMoviesByWatchListId(watchList.getId());
+                return watchListDao.delete(watchList);
             }
         };
 

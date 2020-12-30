@@ -25,4 +25,8 @@ public interface MovieDao {
     // Delete
     @Delete
     int delete(Movie movie);
+
+    // Delete all by watch list id
+    @Query("DELETE from movies where watchListId=(:watchListId)")
+    int deleteMoviesByWatchListId(long watchListId);
 }
