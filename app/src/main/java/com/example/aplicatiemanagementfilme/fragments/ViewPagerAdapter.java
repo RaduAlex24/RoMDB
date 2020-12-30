@@ -13,7 +13,7 @@ import java.util.List;
 
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
-    private static final int NUM_INTEMS = 3;
+    private static final int NUM_INTEMS = 4;
     List<Movie> movieList = new ArrayList<>();
 
     public ViewPagerAdapter(@NonNull FragmentManager fm, List<Movie> movieList) {
@@ -27,7 +27,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         switch (position){
             case 0: return MovieBrowserFragment.newInstance(movieList);
             case 1: return new WatchListFragment();
-            default: return new ProfileFragment();
+            default: return  new ProfileFragment();
         }
     }
 

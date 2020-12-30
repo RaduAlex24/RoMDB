@@ -15,6 +15,7 @@ import com.example.aplicatiemanagementfilme.fragments.WatchListFragment;
 import com.example.aplicatiemanagementfilme.network.HttpManager;
 import com.example.aplicatiemanagementfilme.database.model.Movie;
 import com.example.aplicatiemanagementfilme.util.MovieJsonParser;
+import com.example.aplicatiemanagementfilme.util.OmdbMoviesIdParser;
 
 import java.util.ArrayList;
 import java.util.Collections;
