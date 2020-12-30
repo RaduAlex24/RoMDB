@@ -35,4 +35,8 @@ public interface WatchListDao {
     // Stergere watch list
     @Delete
     int delete(WatchList watchList);
+
+    // Editare nume watch list
+    @Query("UPDATE watchLists SET wlName = (:newName) WHERE id=(:wlId)")
+    int updateWLnameByWLid(String newName, long wlId);
 }

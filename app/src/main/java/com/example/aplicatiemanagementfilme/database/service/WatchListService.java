@@ -77,4 +77,16 @@ public class WatchListService {
 
         asyncTaskRunner.executeAsync(callable, callback);
     }
+
+    // Edit watch list name
+    public void updateWatchListNameById(String newName, long wlId, Callback<Integer> callback) {
+        Callable<Integer> callable = new Callable<Integer>() {
+            @Override
+            public Integer call() {
+                return watchListDao.updateWLnameByWLid(newName, wlId);
+            }
+        };
+
+        asyncTaskRunner.executeAsync(callable, callback);
+    }
 }

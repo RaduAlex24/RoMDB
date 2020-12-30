@@ -1,6 +1,7 @@
 package com.example.aplicatiemanagementfilme.util;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +14,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.aplicatiemanagementfilme.R;
+import com.example.aplicatiemanagementfilme.asyncTask.Callback;
 import com.example.aplicatiemanagementfilme.database.model.Movie;
 import com.example.aplicatiemanagementfilme.database.model.WatchList;
+import com.example.aplicatiemanagementfilme.database.service.WatchListService;
+import com.example.aplicatiemanagementfilme.fragments.WatchListFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
@@ -25,6 +29,7 @@ public class WatchListViewAdapter extends ArrayAdapter<WatchList> {
     private List<WatchList> watchListArray;
     private LayoutInflater inflater;
     private int resource;
+    private WatchListService watchListService;
 
     public WatchListViewAdapter(@NonNull Context context, int resource,
                                 @NonNull List<WatchList> objects, LayoutInflater inflater) {
@@ -34,6 +39,7 @@ public class WatchListViewAdapter extends ArrayAdapter<WatchList> {
         this.watchListArray = objects;
         this.inflater = inflater;
         this.resource = resource;
+        this.watchListService = new WatchListService(this.context);
     }
 
     @NonNull
@@ -58,11 +64,25 @@ public class WatchListViewAdapter extends ArrayAdapter<WatchList> {
             fabRemoveWL.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(getContext(),"Ceva",Toast.LENGTH_SHORT).show();
+                    // Stergerea din baza de date
+                    watchListService.delete(watchList, callbackDeleteWatchListFromDB(watchList, position));
                 }
             });
             fabRemoveWL.setFocusable(false);
         }
         return view;
+    }
+
+    // Callback delete watch list from database
+    private Callback<Integer> callbackDeleteWatchListFromDB(WatchList watchList, int position) {
+        return new Callback<Integer>() {
+            @Override
+            public void runResultOnUiThread(Integer result) {
+                Toast.makeText(getContext(), "Watch list " + watchList.getWlName() + " was deleted",
+                        Toast.LENGTH_SHORT).show();
+                watchListArray.remove(position);
+                WatchListFragment.notifyInternalAdapter();
+            }
+        };
     }
 }

@@ -20,8 +20,10 @@
     <string name="toast_db_login">Invalid username or password</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="toast_addMovieInWL_param">Movie was added to %1$s</string>
+    <string name="toast_deleteWLfromDB_param">Watch list %1$s was deleted</string>
     <string name="search_tiet_movieBrowser">Search</string>
     <string name="movie_browser_title_movieBrowser">Movie browser</string>
     <string name="toast_search_movieBrowser">Movie name must have at least 3 characters</string>
     <string name="toast_movieNotFound_movieBrowser">Movie not found!</string>
+    <string name="toast_WL_name_short">Watch list name must have at least 3 characters</string>
 </resources>

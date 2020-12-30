@@ -15,7 +15,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.aplicatiemanagementfilme.MainActivity;
@@ -87,17 +86,76 @@ public class WatchListFragment extends Fragment {
         getWatchListArrayFromDb();
 
         // Adaugare eveniment click pe obiectele din lv
-        lvWatchList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lvWatchList.setOnItemClickListener(onClickonLVitem());
+
+        // Adaugare eveniment on long click pt editare watch list
+        lvWatchList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getContext(), WatchListDetailsActivity.class);
-                intent.putExtra(WATCH_LIST_INFORMATION_KEY, (Serializable) watchListArray.get(position));
-                intent.putExtra(WATCH_LIST_POSITION_KEY, position);
-                startActivity(intent);
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                alertDialogEditWLname(view, position);
+                return true;
             }
         });
 
     }
+
+    // Alert dialog edit watch list name
+    private void alertDialogEditWLname(View view, int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+        builder.setTitle("Edit watch list name:");
+
+        final EditText input = new EditText(view.getContext());
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+
+        builder.setPositiveButton("OK", alertDialogOkEditWLname(position, input));
+
+        builder.setNegativeButton("Cancel", alertDialogEditWLnameCancel());
+
+        builder.show();
+    }
+
+    // Alert dialog edit watch list name ok
+    private DialogInterface.OnClickListener alertDialogOkEditWLname(int position, EditText input) {
+        return new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String newWLname = input.getText().toString();
+
+                if (newWLname.replace(" ", "").length() <= 2) {
+                    Toast.makeText(getContext(), getString(R.string.toast_WL_name_short),
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Long idWl = watchListArray.get(position).getId();
+                    watchListService.updateWatchListNameById(newWLname, idWl, callbackEditWLname(newWLname, position));
+                }
+            }
+        };
+    }
+
+
+    // Callback edit watch list name
+    private Callback<Integer> callbackEditWLname(String newWLname, int position) {
+        return new Callback<Integer>() {
+            @Override
+            public void runResultOnUiThread(Integer result) {
+                watchListArray.get(position).setWlName(newWLname);
+                notifyInternalAdapter();
+            }
+        };
+    }
+
+
+    // Alert dialog edit watch list name cancel
+    private DialogInterface.OnClickListener alertDialogEditWLnameCancel() {
+        return new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        };
+    }
+
 
     // onClick pentru adaugare watch list
     private View.OnClickListener onClickAddWatchListListener(View view) {
@@ -115,6 +173,19 @@ public class WatchListFragment extends Fragment {
         WatchListViewAdapter adapter = new WatchListViewAdapter(getContext(),
                 R.layout.lv_row_watch_list_details, watchListArray, getLayoutInflater());
         lvWatchList.setAdapter(adapter);
+    }
+
+    // Adaugare eveniment click pe obiectele din lv
+    private AdapterView.OnItemClickListener onClickonLVitem() {
+        return new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getContext(), WatchListDetailsActivity.class);
+                intent.putExtra(WATCH_LIST_INFORMATION_KEY, (Serializable) watchListArray.get(position));
+                intent.putExtra(WATCH_LIST_POSITION_KEY, position);
+                startActivity(intent);
+            }
+        };
     }
 
     // Notificare schimbare adapter
@@ -157,10 +228,14 @@ public class WatchListFragment extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
 
                 String watchListName = input.getText().toString();
-                long userAccountId = MainActivity.currentUserAccount.getId();
-                WatchList watchList = new WatchList(watchListName, userAccountId);
-
-                watchListService.insert(watchList, callbackAddWLtoDb());
+                if (watchListName.replace(" ", "").length() <= 2) {
+                    Toast.makeText(getContext(), getString(R.string.toast_WL_name_short),
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    long userAccountId = MainActivity.currentUserAccount.getId();
+                    WatchList watchList = new WatchList(watchListName, userAccountId);
+                    watchListService.insert(watchList, callbackAddWLtoDb());
+                }
             }
         };
     }
