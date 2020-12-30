@@ -24,6 +24,7 @@ import com.example.aplicatiemanagementfilme.WatchListDetailsActivity;
 import com.example.aplicatiemanagementfilme.asyncTask.Callback;
 import com.example.aplicatiemanagementfilme.database.model.WatchList;
 import com.example.aplicatiemanagementfilme.database.service.WatchListService;
+import com.example.aplicatiemanagementfilme.util.WatchListViewAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.Serializable;
@@ -95,6 +96,7 @@ public class WatchListFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
     }
 
     // onClick pentru adaugare watch list
@@ -110,8 +112,8 @@ public class WatchListFragment extends Fragment {
 
     // Adaugare adapter
     private void addListViewAdapter() {
-        ArrayAdapter adapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1,
-                watchListArray);
+        WatchListViewAdapter adapter = new WatchListViewAdapter(getContext(),
+                R.layout.lv_row_watch_list_details, watchListArray, getLayoutInflater());
         lvWatchList.setAdapter(adapter);
     }
 

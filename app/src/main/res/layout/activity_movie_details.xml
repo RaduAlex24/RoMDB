@@ -25,7 +25,7 @@
             android:layout_marginRight="8dp"
             android:gravity="center"
             android:text="War Horse"
-            android:textSize="18dp"
+            android:textSize="20dp"
             app:layout_constraintBottom_toTopOf="@+id/label_ratingImdb_movie_details_act"
             app:layout_constraintEnd_toStartOf="@id/iv_poster_movie_details_act"
             app:layout_constraintHorizontal_bias="0.18"
@@ -36,12 +36,12 @@
 
         <TextView
             android:id="@+id/label_ratingImdb_movie_details_act"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="5dp"
             android:text="Imdb rating:"
-
-            android:textSize="17dp"
+            android:gravity="center"
+            android:textSize="18dp"
             app:layout_constraintEnd_toStartOf="@id/iv_poster_movie_details_act"
             app:layout_constraintHorizontal_bias="0.19"
             app:layout_constraintStart_toStartOf="parent"
@@ -49,76 +49,76 @@
 
         <TextView
             android:id="@+id/tv_imdbRating_movie_details_act"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="5dp"
             android:gravity="center"
             android:text="6.69"
             android:textSize="17dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/iv_poster_movie_details_act"
             app:layout_constraintHorizontal_bias="0.25"
-            app:layout_constraintStart_toEndOf="@+id/label_ratingImdb_movie_details_act"
-            app:layout_constraintTop_toBottomOf="@+id/tv_title_movie_details_act" />
+            app:layout_constraintStart_toStartOf="@+id/label_ratingImdb_movie_details_act"
+            app:layout_constraintTop_toBottomOf="@+id/label_ratingImdb_movie_details_act" />
 
 
         <TextView
             android:id="@+id/label_releaseDate_movie_details_act"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="5dp"
             android:text="Release date:"
-
-            android:textSize="16dp"
-            app:layout_constraintEnd_toStartOf="@+id/iv_poster_movie_details_act"
+            android:gravity="center"
+            android:textSize="18dp"
+            app:layout_constraintEnd_toStartOf="@id/iv_poster_movie_details_act"
             app:layout_constraintHorizontal_bias="0.19"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/label_ratingImdb_movie_details_act" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_imdbRating_movie_details_act" />
 
         <TextView
             android:id="@+id/tv_releaseDate_movie_details_act"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="5dp"
             android:gravity="center"
             android:text="1999-3-03"
-            android:textSize="16dp"
+            android:textSize="17dp"
             app:layout_constraintEnd_toStartOf="@id/iv_poster_movie_details_act"
             app:layout_constraintHorizontal_bias="0.25"
-            app:layout_constraintStart_toEndOf="@+id/label_releaseDate_movie_details_act"
-            app:layout_constraintTop_toBottomOf="@+id/tv_imdbRating_movie_details_act" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/label_releaseDate_movie_details_act" />
 
 
         <TextView
             android:id="@+id/label_genres_movie_details_act"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="5dp"
             android:text="Genre:"
-
-            android:textSize="14dp"
-            app:layout_constraintEnd_toStartOf="@+id/iv_poster_movie_details_act"
+            android:gravity="center"
+            android:textSize="18dp"
+            app:layout_constraintEnd_toStartOf="@id/iv_poster_movie_details_act"
             app:layout_constraintHorizontal_bias="0.13"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/label_releaseDate_movie_details_act" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_releaseDate_movie_details_act" />
 
         <TextView
             android:id="@+id/tv_genres_movie_details_act"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="5dp"
             android:gravity="center"
             android:text="Drama, comedy, thriller"
-            android:textSize="14dp"
+            android:textSize="17dp"
             app:layout_constraintEnd_toStartOf="@id/iv_poster_movie_details_act"
             app:layout_constraintHorizontal_bias="0.25"
-            app:layout_constraintStart_toEndOf="@+id/label_genres_movie_details_act"
-            app:layout_constraintTop_toBottomOf="@+id/tv_releaseDate_movie_details_act" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/label_genres_movie_details_act" />
 
 
         <ImageView
             android:id="@+id/iv_poster_movie_details_act"
-            android:layout_width="148dp"
-            android:layout_height="173dp"
+            android:layout_width="149dp"
+            android:layout_height="213dp"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="16dp"
@@ -135,7 +135,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
             android:text="Plot: asdasd asdfsdfsd fsdfsdfsdfsdfsdfsdf sd fsdfsdff fsdsd muie:"
@@ -143,7 +143,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_poster_movie_details_act" />
+            app:layout_constraintTop_toBottomOf="@id/tv_genres_movie_details_act" />
 
 
         <TextView
