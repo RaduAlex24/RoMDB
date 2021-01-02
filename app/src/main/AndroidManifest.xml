@@ -14,8 +14,8 @@
         <activity android:name=".WatchListDetailsActivity"></activity>
         <activity android:name=".MovieDetailsActivity" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".SignUpActivity" />
-        <activity android:name=".LogInActivity">
+        <activity android:name=".SignUpActivity" android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".LogInActivity" android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

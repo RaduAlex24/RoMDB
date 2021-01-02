@@ -10,11 +10,15 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.aplicatiemanagementfilme.MovieDetailsActivity;
 import com.example.aplicatiemanagementfilme.R;
 import com.example.aplicatiemanagementfilme.asyncTask.AsyncTaskRunner;
@@ -147,9 +151,12 @@ public class MovieBrowserFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (validate()) {
-                    String search = tietSearch.getText().toString();
+                    String search = tietSearch.getText().toString().trim();
                     search = search.replace(" ", "+");
                     urlOmdb = urlOmdb.replace("REPLACE", search);
+
+                    // Inchidrere astatura
+                    closeKeyboard();
 
                     getOmdbSearchFromHttp(urlOmdb);
                     urlOmdb = urlOmdb.replace(search, "REPLACE");
@@ -282,10 +289,24 @@ public class MovieBrowserFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 if (tietSearch.getText().toString().equals("")) {
+                    // Inchidrere astatura
+                    closeKeyboard();
+
                     omdbAdapterToAdapter();
                     notifyInternalAdapter();
                 }
             }
         };
     }
+
+
+    // Inchidere tastatura
+    private void closeKeyboard() {
+        View view = getActivity().getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(getContext().INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
 }

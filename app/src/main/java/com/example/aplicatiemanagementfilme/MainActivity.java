@@ -4,9 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.aplicatiemanagementfilme.asyncTask.AsyncTaskRunner;
 import com.example.aplicatiemanagementfilme.asyncTask.Callback;
 import com.example.aplicatiemanagementfilme.database.model.UserAccount;
@@ -26,8 +32,11 @@ public class MainActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
     private FragmentManager fragmentManager;
+    private TextView tvLoading;
+    private ImageView ivLoading;
 
     //private final String URL_MOVIES = "https://jsonkeeper.com/b/B2YA";
+    public static final String URL_LOADING_GIF = "https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif";
     private final String URL_MOVIES = "https://jsonkeeper.com/b/A4PU";
     private List<Movie> movieList = new ArrayList<>();
     private AsyncTaskRunner asyncTaskRunner = new AsyncTaskRunner();
@@ -42,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Initializare componente
         initComponents();
-        initViewPagerAdapter();
+        //initViewPagerAdapter();
 
         // Preluare din HTTP
         getMoviesFromHttp(URL_MOVIES);
@@ -55,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
         // Components
         viewPager = findViewById(R.id.viewPager_main);
         fragmentManager = getSupportFragmentManager();
+        initLoading();
 
         // Intent si user curent
         intent = getIntent();
@@ -68,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Preluare filme din HTTP
-    private void getMoviesFromHttp(String url){
+    private void getMoviesFromHttp(String url) {
         Callable<String> callable = new HttpManager(url);
 
         asyncTaskRunner.executeAsync(callable, new Callback<String>() {
@@ -78,10 +88,25 @@ public class MainActivity extends AppCompatActivity {
                 Collections.shuffle(movieList);
 
                 // Initializare swipe view
+                finishLoading();
                 initComponents();
                 initViewPagerAdapter();
             }
         });
+    }
+
+
+    // Initializare loading
+    private void initLoading() {
+        tvLoading = findViewById(R.id.tv_loading_main);
+        ivLoading = findViewById(R.id.iv_loading_main);
+        Glide.with(getApplicationContext()).load(URL_LOADING_GIF).into(ivLoading);
+    }
+
+    // Terminare loading
+    private void finishLoading() {
+        tvLoading.setVisibility(View.GONE);
+        ivLoading.setVisibility(View.GONE);
     }
 
 }
