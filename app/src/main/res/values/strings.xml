@@ -26,4 +26,5 @@
     <string name="toast_search_movieBrowser">Movie name must have at least 3 characters</string>
     <string name="toast_movieNotFound_movieBrowser">Movie not found!</string>
     <string name="toast_WL_name_short">Watch list name must have at least 3 characters</string>
+    <string name="toast_zeroWLcreateOne_movieDetails">You don\'t have a watch list, to create one go to the watch list tab</string>
 </resources>

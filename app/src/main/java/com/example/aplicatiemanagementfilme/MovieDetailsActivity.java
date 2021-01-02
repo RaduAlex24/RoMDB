@@ -148,7 +148,14 @@ public class MovieDetailsActivity extends AppCompatActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                alertDialogSelectWL(v);
+                // Verificare existenta watch list
+                if (WatchListFragment.watchListArray.size() != 0) {
+                    alertDialogSelectWL(v);
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            getString(R.string.toast_zeroWLcreateOne_movieDetails),
+                            Toast.LENGTH_LONG).show();
+                }
             }
         };
     }
