@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.example.aplicatiemanagementfilme.asyncTask.Callback;
 import com.example.aplicatiemanagementfilme.database.model.UserAccount;
 import com.example.aplicatiemanagementfilme.database.service.UserAccountService;
+import com.example.aplicatiemanagementfilme.fragments.ProfileFragment;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.List;
@@ -24,8 +25,8 @@ public class LogInActivity extends AppCompatActivity {
     public static final String PASSWORD_SP = "PASSWORD_SP";
     public static final String USERNAME_SP = "USERNAME_SP";
     public static final String REMEMBER_CHECKED = "REMEMBER_CHECKED";
-    private TextInputEditText tiet_username;
-    private TextInputEditText tiet_password;
+    private static TextInputEditText tiet_username;
+    private static TextInputEditText tiet_password;
     private CheckBox checkBoxRemember;
     private Button btn_login;
     private Button btn_signup;
@@ -211,6 +212,7 @@ public class LogInActivity extends AppCompatActivity {
         editor.putString(USERNAME_SP, "");
         editor.putString(PASSWORD_SP, "");
         editor.putBoolean(REMEMBER_CHECKED, false);
+        editor.putBoolean(ProfileFragment.AUTO_LOG_IN_CHECKED, false);
         editor.apply();
     }
 
@@ -219,11 +221,21 @@ public class LogInActivity extends AppCompatActivity {
         String username = preferences.getString(USERNAME_SP, "");
         String password = preferences.getString(PASSWORD_SP, "");
         boolean rememberChecked = preferences.getBoolean(REMEMBER_CHECKED, false);
+        boolean rememberAutoLogIn = preferences.getBoolean(ProfileFragment.AUTO_LOG_IN_CHECKED, false);
 
         tiet_username.setText(username);
         tiet_password.setText(password);
         if (rememberChecked) {
             checkBoxRemember.setChecked(true);
         }
+        if(rememberAutoLogIn){
+            btn_login.performClick();
+        }
+    }
+
+    // Stergere date din casute
+    public static void deleteUserInfoFromLogIn(){
+        tiet_username.setText("");
+        tiet_password.setText("");
     }
 }
