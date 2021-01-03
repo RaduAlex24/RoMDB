@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AplicatieManagementFilme</string>
+    <string name="app_name">RoMDB</string>
     <string name="log_in_title_login">Log In</string>
     <string name="username_login">Username</string>
     <string name="password_login">Password</string>
