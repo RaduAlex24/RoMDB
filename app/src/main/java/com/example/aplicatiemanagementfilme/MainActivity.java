@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.aplicatiemanagementfilme.asyncTask.AsyncTaskRunner;
@@ -108,5 +109,12 @@ public class MainActivity extends AppCompatActivity {
         tvLoading.setVisibility(View.GONE);
         ivLoading.setVisibility(View.GONE);
     }
+
+
+//    @Override
+//    public void onBackPressed() {
+//        Toast.makeText(getApplicationContext(),"sal",Toast.LENGTH_SHORT).show();
+//        finish();
+//    }
 
 }

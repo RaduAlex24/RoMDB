@@ -164,6 +164,30 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_plot_movie_details_act"
             app:layout_constraintVertical_bias="0.0" />
 
+        <TextView
+            android:id="@+id/label_ratingBar_movie_details_act"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:textSize="24dp"
+            android:text="Reviews from our users:"
+            app:layout_constraintBottom_toTopOf="@+id/ratingBar_movie_details_act"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_actors_movie_details_act" />
+
+        <RatingBar
+            android:id="@+id/ratingBar_movie_details_act"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            app:layout_constraintBottom_toTopOf="@+id/fab_add_watchList"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/label_ratingBar_movie_details_act"
+            android:isIndicator="true"
+            android:numStars="5" />
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_add_movieToWL_movie_details_act"
             android:layout_width="wrap_content"
@@ -177,7 +201,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_actors_movie_details_act"
+            app:layout_constraintTop_toBottomOf="@+id/ratingBar_movie_details_act"
             app:layout_constraintVertical_bias="1.0"
             app:srcCompat="@android:drawable/btn_star" />
 
@@ -194,7 +218,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_actors_movie_details_act"
+            app:layout_constraintTop_toBottomOf="@+id/ratingBar_movie_details_act"
             app:layout_constraintVertical_bias="1.0"
             app:srcCompat="@android:drawable/ic_menu_delete" />
 

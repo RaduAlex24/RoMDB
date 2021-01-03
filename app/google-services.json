@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "995266343722",
+    "firebase_url": "https://proiect-apes-default-rtdb.firebaseio.com",
+    "project_id": "proiect-apes",
+    "storage_bucket": "proiect-apes.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:995266343722:android:c63a2cd88ca5dc01862453",
+        "android_client_info": {
+          "package_name": "com.example.aplicatiemanagementfilme"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "995266343722-na1uc4642j1jj54jsajhsh6odfeij01f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7pQ9gvELUlI_ludrF-RGfJq47HBHUmmA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "995266343722-na1uc4642j1jj54jsajhsh6odfeij01f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

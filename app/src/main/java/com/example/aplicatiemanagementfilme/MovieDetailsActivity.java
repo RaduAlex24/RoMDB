@@ -6,9 +6,14 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,10 +23,12 @@ import com.example.aplicatiemanagementfilme.asyncTask.Callback;
 import com.example.aplicatiemanagementfilme.database.model.WatchList;
 import com.example.aplicatiemanagementfilme.database.service.MovieService;
 import com.example.aplicatiemanagementfilme.database.service.WatchListService;
+import com.example.aplicatiemanagementfilme.firebase.FirebaseService;
 import com.example.aplicatiemanagementfilme.fragments.MovieBrowserFragment;
 import com.example.aplicatiemanagementfilme.fragments.WatchListFragment;
 import com.example.aplicatiemanagementfilme.util.DateConverter;
 import com.example.aplicatiemanagementfilme.database.model.Movie;
+import com.example.aplicatiemanagementfilme.util.ReviewMovie;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -38,6 +45,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
     private TextView tvActors;
     private FloatingActionButton fab_addMovieToWL;
     private FloatingActionButton fab_deleteMovieFromWL;
+    private RatingBar ratingBar;
 
     private DateConverter dateConverter = new DateConverter();
 
@@ -48,6 +56,9 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
     private MovieService movieService;
     private WatchListService watchListService;
+
+    private FirebaseService firebaseService;
+    public static List<ReviewMovie> reviewMovieList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +92,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
         tvActors = findViewById(R.id.tv_actors_movie_details_act);
         fab_addMovieToWL = findViewById(R.id.fab_add_movieToWL_movie_details_act);
         fab_deleteMovieFromWL = findViewById(R.id.fab_delete_movieFromWL_movie_details_act);
+        ratingBar = findViewById(R.id.ratingBar_movie_details_act);
 
         // Intent
         intent = getIntent();
@@ -105,8 +117,29 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
         // Watch list service
         watchListService = new WatchListService(getApplicationContext());
+
+        // Firebase
+        firebaseService = FirebaseService.getInstance();
+        firebaseService.attachDataChangeEventListener(dataChangeCallback());
     }
 
+    // Callback get all review movies from firebase
+    private Callback<List<ReviewMovie>> dataChangeCallback() {
+        return new Callback<List<ReviewMovie>>() {
+            @Override
+            public void runResultOnUiThread(List<ReviewMovie> result) {
+                //primim raspunsul de la attachDataChangeEventListener
+                //declansat de fiecare data cand se produc modificari asupra bazei de date
+                if (result != null) {
+                    reviewMovieList.clear();
+                    reviewMovieList.addAll(result);
+
+                    // Update rating
+                    getMovieRatingFromFirebase();
+                }
+            }
+        };
+    }
 
     // Incarcare film in componenetele paginii
     private void loadPageWithMovie(Movie movie) {
@@ -249,15 +282,85 @@ public class MovieDetailsActivity extends AppCompatActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+
+                LinearLayout linearLayout = new LinearLayout(v.getContext());
+                linearLayout.setGravity(Gravity.CENTER);
+                final RatingBar ratingBar = new RatingBar(v.getContext());
+
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                );
+                ratingBar.setLayoutParams(lp);
+                ratingBar.setNumStars(5);
+
+                linearLayout.addView(ratingBar);
+
+                builder.setTitle("Would you like to add a review to this movie?");
+
+                //add linearLayout to dailog
+                builder.setView(linearLayout);
+
+
+                // Set up the buttons
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Creare obiect review movie
+                        float rating = ratingBar.getRating();
+                        String movieTitle = movieFromIntent.getTitle();
+                        ReviewMovie reviewMovie = new ReviewMovie(null, movieTitle, rating);
+
+                        // Inserare+Update in firebase
+                        firebaseService.upsert(reviewMovie);
+
+                        // Inchidere aplciati
+                        Toast.makeText(getApplicationContext(),
+                                "Thank you for the review!",
+                                Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                });
+
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Inchidere aplciatie
+                        dialog.cancel();
+                        finish();
+                    }
+                });
+
+                builder.show();
+
+
                 movieService.delete(movieFromIntent, new Callback<Integer>() {
                     @Override
                     public void runResultOnUiThread(Integer result) {
                         intent.putExtra(MovieBrowserFragment.MOVIE_POSITION_KEY, moviePositionInList);
                         setResult(RESULT_OK, intent);
-                        finish();
+                        //finish();
                     }
                 });
             }
         };
+    }
+
+
+    // Update rating dupa nume film
+    private void getMovieRatingFromFirebase() {
+        float ratingSum = 0;
+        int ratingNumber = 0;
+
+        for (int i = 0; i < reviewMovieList.size(); i++) {
+            if (reviewMovieList.get(i).getMovieTitle().equals(movieFromIntent.getTitle())) {
+                ratingSum += reviewMovieList.get(i).getUserRating();
+                ratingNumber++;
+            }
+        }
+
+        float mean = ratingNumber != 0 ? ratingSum / ratingNumber : 0;
+        ratingBar.setRating(mean);
     }
 }
