@@ -191,7 +191,6 @@ public class MovieBrowserFragment extends Fragment {
                             getString(R.string.toast_movieNotFound_movieBrowser),
                             Toast.LENGTH_SHORT).show();
                 } else {
-                    // AICI *****************************************************************
                     getMoviesFromHttpByImdbId(omdbMovieIdList);
                 }
             }
@@ -304,7 +303,8 @@ public class MovieBrowserFragment extends Fragment {
     private void closeKeyboard() {
         View view = getActivity().getCurrentFocus();
         if (view != null) {
-            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(getContext().INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager) getActivity()
+                    .getSystemService(getContext().INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }

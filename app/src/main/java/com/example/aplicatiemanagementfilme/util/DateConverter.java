@@ -18,13 +18,6 @@ public class DateConverter {
         formatterOmdb = new SimpleDateFormat(FORMAT_DATE_OMDB, Locale.US);
     }
 
-//    public Date toDateOmdb(String value) {
-//        try {
-//            return formatterOmdb.parse(value);
-//        } catch (ParseException e) {
-//            return null;
-//        }
-//    }
 
     public Date toDateFromOmdbStringDate(String omdbDateString) {
         try {

@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.logging.Handler;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvLoading;
     private ImageView ivLoading;
 
-    //private final String URL_MOVIES = "https://jsonkeeper.com/b/B2YA";
     public static final String URL_LOADING_GIF = "https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif";
     private final String URL_MOVIES = "https://jsonkeeper.com/b/A4PU";
     private List<Movie> movieList = new ArrayList<>();
@@ -44,6 +44,10 @@ public class MainActivity extends AppCompatActivity {
 
     private Intent intent;
     public static UserAccount currentUserAccount;
+
+    private static final int TIME_INTERVAL = 2000;
+    private long mBackPressed;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,10 +115,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-//    @Override
-//    public void onBackPressed() {
-//        Toast.makeText(getApplicationContext(),"sal",Toast.LENGTH_SHORT).show();
-//        finish();
-//    }
+    @Override
+    public void onBackPressed() {
+        if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis()) {
+            super.onBackPressed();
+            finishAffinity();
+        } else {
+            Toast.makeText(getBaseContext(),
+                    getString(R.string.toast_press_back_main),
+                    Toast.LENGTH_SHORT).show();
+        }
+
+        mBackPressed = System.currentTimeMillis();
+    }
 
 }

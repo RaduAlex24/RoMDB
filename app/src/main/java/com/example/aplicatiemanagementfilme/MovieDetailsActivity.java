@@ -6,11 +6,9 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.InputType;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
@@ -128,8 +126,6 @@ public class MovieDetailsActivity extends AppCompatActivity {
         return new Callback<List<ReviewMovie>>() {
             @Override
             public void runResultOnUiThread(List<ReviewMovie> result) {
-                //primim raspunsul de la attachDataChangeEventListener
-                //declansat de fiecare data cand se produc modificari asupra bazei de date
                 if (result != null) {
                     reviewMovieList.clear();
                     reviewMovieList.addAll(result);
@@ -296,53 +292,60 @@ public class MovieDetailsActivity extends AppCompatActivity {
                 ratingBar.setNumStars(5);
 
                 linearLayout.addView(ratingBar);
-
-                builder.setTitle("Would you like to add a review to this movie?");
-
-                //add linearLayout to dailog
+                builder.setTitle(R.string.alert_dialog_title_review_movieDetails);
                 builder.setView(linearLayout);
 
-
-                // Set up the buttons
-                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Creare obiect review movie
-                        float rating = ratingBar.getRating();
-                        String movieTitle = movieFromIntent.getTitle();
-                        ReviewMovie reviewMovie = new ReviewMovie(null, movieTitle, rating);
-
-                        // Inserare+Update in firebase
-                        firebaseService.upsert(reviewMovie);
-
-                        // Inchidere aplciati
-                        Toast.makeText(getApplicationContext(),
-                                "Thank you for the review!",
-                                Toast.LENGTH_SHORT).show();
-                        finish();
-                    }
-                });
-
-                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Inchidere aplciatie
-                        dialog.cancel();
-                        finish();
-                    }
-                });
-
+                builder.setPositiveButton("Yes", onClickDialogYesReview(ratingBar));
+                builder.setNegativeButton("No", onClickDialogNoReview());
                 builder.show();
 
+                movieService.delete(movieFromIntent, callbackDeleteMovieFromWL());
+            }
+        };
+    }
 
-                movieService.delete(movieFromIntent, new Callback<Integer>() {
-                    @Override
-                    public void runResultOnUiThread(Integer result) {
-                        intent.putExtra(MovieBrowserFragment.MOVIE_POSITION_KEY, moviePositionInList);
-                        setResult(RESULT_OK, intent);
-                        //finish();
-                    }
-                });
+    // Callback delete movie from watch list
+    private Callback<Integer> callbackDeleteMovieFromWL() {
+        return new Callback<Integer>() {
+            @Override
+            public void runResultOnUiThread(Integer result) {
+                intent.putExtra(MovieBrowserFragment.MOVIE_POSITION_KEY, moviePositionInList);
+                setResult(RESULT_OK, intent);
+                //finish();
+            }
+        };
+    }
+
+    // Alert no review
+    private DialogInterface.OnClickListener onClickDialogNoReview() {
+        return new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Inchidere aplciatie
+                dialog.cancel();
+                finish();
+            }
+        };
+    }
+
+    // Alert yes review
+    private DialogInterface.OnClickListener onClickDialogYesReview(RatingBar ratingBar) {
+        return new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Creare obiect review movie
+                float rating = ratingBar.getRating();
+                String movieTitle = movieFromIntent.getTitle();
+                ReviewMovie reviewMovie = new ReviewMovie(null, movieTitle, rating);
+
+                // Inserare+Update in firebase
+                firebaseService.upsert(reviewMovie);
+
+                // Inchidere aplciati
+                Toast.makeText(getApplicationContext(),
+                        getString(R.string.toast_alert_reviewMade_movieDetails),
+                        Toast.LENGTH_SHORT).show();
+                finish();
             }
         };
     }

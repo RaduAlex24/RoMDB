@@ -69,14 +69,6 @@ public class MovieListViewAdapter extends ArrayAdapter<Movie> {
                 }
             }
             tvGenre.setText(genresString);
-
-//            // Plot
-//            TextView tvPlot = view.findViewById(R.id.tv_plot_browserRow);
-//            tvPlot.setText("Plot: " + movie.getStoryline());
-//
-//            // Actori
-//            TextView tvActors = view.findViewById(R.id.tv_actors_browserRow);
-//            tvActors.setText("Staring:" + movie.getActors().toString());
         }
         return view;
     }

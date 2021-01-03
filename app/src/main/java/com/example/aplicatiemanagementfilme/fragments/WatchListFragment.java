@@ -58,7 +58,6 @@ public class WatchListFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_watch_list, container, false);
 
-
         // Initializare componente
         initComponents(view);
 
@@ -89,14 +88,19 @@ public class WatchListFragment extends Fragment {
         lvWatchList.setOnItemClickListener(onClickonLVitem());
 
         // Adaugare eveniment on long click pt editare watch list
-        lvWatchList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        lvWatchList.setOnItemLongClickListener(onLongClickEditWLnameListener());
+
+    }
+
+    // On long click edit watch list
+    private AdapterView.OnItemLongClickListener onLongClickEditWLnameListener() {
+        return new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 alertDialogEditWLname(view, position);
                 return true;
             }
-        });
-
+        };
     }
 
     // Alert dialog edit watch list name
@@ -127,7 +131,8 @@ public class WatchListFragment extends Fragment {
                             Toast.LENGTH_SHORT).show();
                 } else {
                     Long idWl = watchListArray.get(position).getId();
-                    watchListService.updateWatchListNameById(newWLname, idWl, callbackEditWLname(newWLname, position));
+                    watchListService.updateWatchListNameById(newWLname, idWl,
+                            callbackEditWLname(newWLname, position));
                 }
             }
         };
@@ -257,7 +262,8 @@ public class WatchListFragment extends Fragment {
 
     // Preluare watch list array din db
     private void getWatchListArrayFromDb() {
-        watchListService.getWatchListsByUserAccountId(MainActivity.currentUserAccount.getId(), callbackGetAllWLfromDB());
+        watchListService.getWatchListsByUserAccountId(MainActivity.currentUserAccount.getId(),
+                callbackGetAllWLfromDB());
     }
 
     // Extragere toate wl din db

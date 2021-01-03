@@ -78,7 +78,8 @@ public class WatchListViewAdapter extends ArrayAdapter<WatchList> {
         return new Callback<Integer>() {
             @Override
             public void runResultOnUiThread(Integer result) {
-                Toast.makeText(getContext(), "Watch list " + watchList.getWlName() + " was deleted",
+                Toast.makeText(getContext(),
+                        getContext().getString(R.string.wl_deleted_wlAdapter_param, watchList.getWlName()),
                         Toast.LENGTH_SHORT).show();
                 watchListArray.remove(position);
                 WatchListFragment.notifyInternalAdapter();
