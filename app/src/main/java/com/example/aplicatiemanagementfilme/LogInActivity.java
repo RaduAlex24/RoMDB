@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import com.example.aplicatiemanagementfilme.asyncTask.Callback;
@@ -25,6 +26,7 @@ public class LogInActivity extends AppCompatActivity {
     public static final String PASSWORD_SP = "PASSWORD_SP";
     public static final String USERNAME_SP = "USERNAME_SP";
     public static final String REMEMBER_CHECKED = "REMEMBER_CHECKED";
+    public static final int DELETE_ACCOUNT_REQUEST_CODE = 201;
     private static TextInputEditText tiet_username;
     private static TextInputEditText tiet_password;
     private CheckBox checkBoxRemember;
@@ -55,6 +57,9 @@ public class LogInActivity extends AppCompatActivity {
 
         // Preluare shared preferences
         getLogInInfoFromSharedPreference();
+
+        // Schimbare remember me
+        checkBoxRemember.setOnCheckedChangeListener(onCheckedChangedRememberListener());
     }
 
 
@@ -67,8 +72,23 @@ public class LogInActivity extends AppCompatActivity {
         if (requestCode == SIGN_UP_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
             userAccount = (UserAccount) data.getSerializableExtra(SignUpActivity.USER_ACCOUNT_KEY);
             // Populare log in
-            Toast.makeText(getApplicationContext(), userAccount.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),
+                    getString(R.string.toast_accountCreated_LogIn),
+                    Toast.LENGTH_LONG).show();
+
             populateLogIn(userAccount);
+        }
+
+        // Stergere userAccount
+        if (requestCode == DELETE_ACCOUNT_REQUEST_CODE && resultCode == RESULT_OK) {
+            // Stergere shared preferences
+            deleteLogInInfoToSharedPreference();
+            // Stergere campuri log in
+            deleteUserInfoFromLogIn();
+            // Debifare remember me
+            if (checkBoxRemember.isChecked()) {
+                checkBoxRemember.setChecked(false);
+            }
         }
     }
 
@@ -96,6 +116,18 @@ public class LogInActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
                 startActivityForResult(intent, SIGN_UP_REQUEST_CODE);
+            }
+        };
+    }
+
+    // Schimbare check pe remember me
+    private CompoundButton.OnCheckedChangeListener onCheckedChangedRememberListener() {
+        return new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (!isChecked) {
+                    deleteLogInInfoToSharedPreference();
+                }
             }
         };
     }
@@ -153,7 +185,7 @@ public class LogInActivity extends AppCompatActivity {
                     //Toast.makeText(getApplicationContext(), "Logare reusita!", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     intent.putExtra(USER_INFORMATION_KEY, result.get(0));
-                    startActivity(intent);
+                    startActivityForResult(intent, DELETE_ACCOUNT_REQUEST_CODE);
                 }
             }
         };
@@ -228,13 +260,13 @@ public class LogInActivity extends AppCompatActivity {
         if (rememberChecked) {
             checkBoxRemember.setChecked(true);
         }
-        if(rememberAutoLogIn){
+        if (rememberAutoLogIn) {
             btn_login.performClick();
         }
     }
 
     // Stergere date din casute
-    public static void deleteUserInfoFromLogIn(){
+    public static void deleteUserInfoFromLogIn() {
         tiet_username.setText("");
         tiet_password.setText("");
     }

@@ -42,7 +42,8 @@ public class Movie implements Serializable {
         this.title = title;
         this.releaseDate = releaseDate;
         this.genres = genres;
-        this.storyline = storyline;
+        String[] storyLineArray = storyline.split("Written by");
+        this.storyline = storyLineArray[0];
         this.actors = actors;
         this.imdbRating = imdbRating;
         this.posterUrl = posterUrl;
@@ -54,7 +55,8 @@ public class Movie implements Serializable {
         this.title = title;
         this.releaseDate = releaseDate;
         this.genres = genres;
-        this.storyline = storyline;
+        String[] storyLineArray = storyline.split("Written by");
+        this.storyline = storyLineArray[0];
         this.actors = actors;
         this.imdbRating = imdbRating;
         this.posterUrl = posterUrl;

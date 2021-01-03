@@ -245,7 +245,9 @@ public class WatchListFragment extends Fragment {
         return new Callback<WatchList>() {
             @Override
             public void runResultOnUiThread(WatchList result) {
-                Toast.makeText(getContext(), result.toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(),
+                        getString(R.string.toast_create_WL_WLfragment, result.getWlName()),
+                        Toast.LENGTH_LONG).show();
                 watchListArray.add(result);
                 notifyInternalAdapter();
             }

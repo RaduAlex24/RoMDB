@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.Locale;
 
 public class DateConverter {
-    private static final String FORMAT_DATE = "yyyy-mm-dd";
+    private static final String FORMAT_DATE = "yyyy-MM-dd";
     private static final String FORMAT_DATE_OMDB = "dd MMM yyyy";
     private final SimpleDateFormat formatter;
     private final SimpleDateFormat formatterOmdb;

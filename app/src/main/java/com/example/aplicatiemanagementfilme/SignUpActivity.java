@@ -6,12 +6,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.aplicatiemanagementfilme.asyncTask.Callback;
 import com.example.aplicatiemanagementfilme.database.dao.UserAccountDao;
 import com.example.aplicatiemanagementfilme.database.model.UserAccount;
 import com.example.aplicatiemanagementfilme.database.service.UserAccountService;
+import com.example.aplicatiemanagementfilme.fragments.ProfileFragment;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.List;
@@ -19,15 +21,20 @@ import java.util.List;
 public class SignUpActivity extends AppCompatActivity {
 
     public static final String USER_ACCOUNT_KEY = "USER_ACCOUNT_KEY";
+    public static final String UPDATED_USER_ACCOUNT_KEY = "UPDATED_USER_ACCOUNT_KEY";
     private TextInputEditText tiet_username;
     private TextInputEditText tiet_password;
     private TextInputEditText tiet_email;
     private TextInputEditText tiet_fullname;
     private Button btn_signup;
+    private TextView tv_title;
 
     private Intent intent;
     private UserAccountService userAccountService;
     private int codEroare = -1;
+
+    private UserAccount userAccountGlobal;
+    private boolean isEditing = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +57,17 @@ public class SignUpActivity extends AppCompatActivity {
         tiet_email = findViewById(R.id.tiet_email_signup);
         tiet_fullname = findViewById(R.id.tiet_fullname_signup);
         btn_signup = findViewById(R.id.btn_signup_signup);
+        tv_title = findViewById(R.id.tv_title_signup);
 
         // Preluare intent
         intent = getIntent();
+
+        // Verificare existenta cont ( pentru editare )
+        if (intent.hasExtra(ProfileFragment.CURRENT_USER_EDIT_KEY)) {
+            userAccountGlobal = (UserAccount) intent.getSerializableExtra(ProfileFragment.CURRENT_USER_EDIT_KEY);
+            createViewFromUserAccount(userAccountGlobal);
+            isEditing = true;
+        }
 
         // Initializare dao
         userAccountService = new UserAccountService(getApplicationContext());
@@ -66,11 +81,11 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (validate()) {
-                    UserAccount userAccount = createAccountFromWidgets();
+                    createAccountFromWidgets();
                     // validare db
-                    userAccountService.getUsersByUsernameOrEmail(userAccount.getUsername(),
-                            userAccount.getEmail(),
-                            getUsersByUsernameOrEmailCallback(userAccount));
+                    userAccountService.getUsersByUsernameOrEmail(userAccountGlobal.getUsername(),
+                            userAccountGlobal.getEmail(),
+                            getUsersByUsernameOrEmailCallback(userAccountGlobal));
 
                 }
             }
@@ -86,26 +101,44 @@ public class SignUpActivity extends AppCompatActivity {
                     codEroare = 0;
                 } else {
                     for (UserAccount userAccountResult : result) {
-                        if (userAccount.getUsername().equals(userAccountResult.getUsername())) {
-                            codEroare = 1;
-                            break;
+                        if(userAccount.getId() != userAccountResult.getId()) {
+                            if (userAccount.getUsername().equals(userAccountResult.getUsername())) {
+                                codEroare = 1;
+                                break;
+                            }
+                            if (userAccount.getEmail().equals(userAccountResult.getEmail())) {
+                                codEroare = 2;
+                                break;
+                            }
                         }
-                        if (userAccount.getEmail().equals(userAccountResult.getEmail())) {
-                            codEroare = 2;
-                            break;
+                        else{
+                            codEroare = 0;
                         }
                     }
                 }
                 if (validateDB(codEroare)) {
-                    // Inserare in baza de date
-                    userAccountService.insert(userAccount, new Callback<UserAccount>() {
-                        @Override
-                        public void runResultOnUiThread(UserAccount result) {
-                            intent.putExtra(USER_ACCOUNT_KEY, result);
-                            setResult(RESULT_OK, intent);
-                            finish();
-                        }
-                    });
+                    if(!isEditing) {
+                        // Inserare in baza de date
+                        userAccountService.insert(userAccount, new Callback<UserAccount>() {
+                            @Override
+                            public void runResultOnUiThread(UserAccount result) {
+                                intent.putExtra(USER_ACCOUNT_KEY, result);
+                                setResult(RESULT_OK, intent);
+                                finish();
+                            }
+                        });
+                    }
+                    else{
+                        // Update in baza de date
+                        userAccountService.update(userAccount, new Callback<UserAccount>() {
+                            @Override
+                            public void runResultOnUiThread(UserAccount result) {
+                                intent.putExtra(UPDATED_USER_ACCOUNT_KEY, result);
+                                setResult(RESULT_OK, intent);
+                                finish();
+                            }
+                        });
+                    }
                 }
             }
         };
@@ -153,13 +186,21 @@ public class SignUpActivity extends AppCompatActivity {
 
 
     // Creare account din widgets
-    private UserAccount createAccountFromWidgets() {
+    private void createAccountFromWidgets() {
         String username = tiet_username.getText().toString();
         String password = tiet_password.getText().toString();
         String email = tiet_email.getText().toString();
         String fullName = tiet_fullname.getText().toString();
 
-        return new UserAccount(username, password, email, fullName);
+        if(isEditing){
+            userAccountGlobal.setUsername(username);
+            userAccountGlobal.setPassword(password);
+            userAccountGlobal.setEmail(email);
+            userAccountGlobal.setFullName(fullName);
+        }
+        else {
+            userAccountGlobal = new UserAccount(username, password, email, fullName);
+        }
     }
 
 
@@ -180,5 +221,18 @@ public class SignUpActivity extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
             return false;
         }
+    }
+
+    // Populare campuri cu un cont primit
+    private void createViewFromUserAccount(UserAccount userAccount){
+        // Populare campuri
+        tiet_username.setText(userAccountGlobal.getUsername());
+        tiet_password.setText(userAccountGlobal.getPassword());
+        tiet_email.setText(userAccount.getEmail());
+        tiet_fullname.setText(userAccount.getFullName());
+
+        // Editare texte
+        tv_title.setText(R.string.edit_your_account_sign_up);
+        btn_signup.setText(R.string.edit_btn_sign_up);
     }
 }

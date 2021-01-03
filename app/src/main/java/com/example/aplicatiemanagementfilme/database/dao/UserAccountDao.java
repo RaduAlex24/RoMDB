@@ -1,8 +1,10 @@
 package com.example.aplicatiemanagementfilme.database.dao;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.example.aplicatiemanagementfilme.database.model.UserAccount;
 
@@ -23,5 +25,13 @@ public interface UserAccountDao {
     // Get pentru testare username
     @Query("select * from userAccounts where username LIKE (:username)")
     List<UserAccount> getUsersByUsername(String username);
+
+    // Delete
+    @Delete
+    int delete(UserAccount userAccount);
+
+    // Update
+    @Update
+    int update(UserAccount userAccount);
 
 }
