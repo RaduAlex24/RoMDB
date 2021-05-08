@@ -1,34 +1,33 @@
 {
   "project_info": {
-    "project_number": "995266343722",
-    "firebase_url": "https://proiect-apes-default-rtdb.firebaseio.com",
-    "project_id": "proiect-apes",
-    "storage_bucket": "proiect-apes.appspot.com"
+    "project_number": "744601436819",
+    "project_id": "licenta-movie-rating",
+    "storage_bucket": "licenta-movie-rating.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:995266343722:android:c63a2cd88ca5dc01862453",
+        "mobilesdk_app_id": "1:744601436819:android:93ef72487efe9abc684366",
         "android_client_info": {
           "package_name": "com.example.aplicatiemanagementfilme"
         }
       },
       "oauth_client": [
         {
-          "client_id": "995266343722-na1uc4642j1jj54jsajhsh6odfeij01f.apps.googleusercontent.com",
+          "client_id": "744601436819-4kbd3c1ch32oqlu61huo0kk92nfbk9g3.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA7pQ9gvELUlI_ludrF-RGfJq47HBHUmmA"
+          "current_key": "AIzaSyAiM1WBI2lY-6EwJeeJbzBbEV285o4U6bw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "995266343722-na1uc4642j1jj54jsajhsh6odfeij01f.apps.googleusercontent.com",
+              "client_id": "744601436819-4kbd3c1ch32oqlu61huo0kk92nfbk9g3.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
