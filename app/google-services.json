@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "744601436819",
-    "project_id": "licenta-movie-rating",
-    "storage_bucket": "licenta-movie-rating.appspot.com"
+    "project_number": "653269476785",
+    "project_id": "rating-movie-licenta",
+    "storage_bucket": "rating-movie-licenta.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:744601436819:android:93ef72487efe9abc684366",
+        "mobilesdk_app_id": "1:653269476785:android:c94751c23baf5ae280c990",
         "android_client_info": {
-          "package_name": "com.example.aplicatiemanagementfilme"
+          "package_name": "com.example.licenta"
         }
       },
       "oauth_client": [
         {
-          "client_id": "744601436819-4kbd3c1ch32oqlu61huo0kk92nfbk9g3.apps.googleusercontent.com",
+          "client_id": "653269476785-j440s94npr8rhgkh1sqe4ko40a499vqv.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAiM1WBI2lY-6EwJeeJbzBbEV285o4U6bw"
+          "current_key": "AIzaSyDBoIuDvSBcXAv3OagVUgzpvhpOFDaHbLs"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "744601436819-4kbd3c1ch32oqlu61huo0kk92nfbk9g3.apps.googleusercontent.com",
+              "client_id": "653269476785-j440s94npr8rhgkh1sqe4ko40a499vqv.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

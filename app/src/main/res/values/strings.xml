@@ -51,9 +51,9 @@
     <string name="dummyText_Title_watchListDetails">Exemplu nume WL</string>
     <string name="dummyText_title_profileFragment">Profile</string>
     <string name="label_full_name_profileFragment">Full name:</string>
-    <string name="dummyText_fullName_profileFragment">Radu Alexandru</string>
+    <string name="dummyText_fullName_profileFragment">Popa Rares</string>
     <string name="label_email_profileFragment">Email:</string>
-    <string name="dummyText_email_profileFragment">radu.alexandru@gmail.com</string>
+    <string name="dummyText_email_profileFragment">popa.rares@gmail.com</string>
     <string name="label_user_options_profileFragment">User Options</string>
     <string name="edit_account_btn_profileFragment">Edit Account</string>
     <string name="delete_account_btn_profileFragment">Delete Account</string>
@@ -69,7 +69,7 @@
     <string name="dummyText_genres_browserRow">Drama, comedy, thriller</string>
     <string name="watch_list_name_title_wlRow">Watch list name</string>
     <string name="label_total_number_of_movies_wlRow">Total number of movies:</string>
-    <string name="dummyText_numberOfMovies_wlRow">69</string>
+    <string name="dummyText_numberOfMovies_wlRow">59</string>
     <string name="alert_dialog_title_review_movieDetails">Would you like to add a review to this movie?</string>
     <string name="wl_deleted_wlAdapter_param">Watch list %1$s was deleted</string>
     <string name="toast_alert_reviewMade_movieDetails">Thank you for the review!</string>
