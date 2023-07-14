@@ -1,0 +1,2 @@
+# RoMDB
+RoMDB is an advanced mobile application developed for comprehensive movie database management. It provides functionality to search through an extensive collection of films, organize custom watchlists, and rate movies based on user preferences. Leveraging a user-centric design, RoMDB enhances the user experience by offering personalized and interactive movie-related functionalities. It aims to streamline the process of movie discovery, list creation, and audience review, presenting a valuable tool for both casual viewers and avid cinephiles.
